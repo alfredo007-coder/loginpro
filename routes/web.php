@@ -33,15 +33,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/presentacion', function () {
-    //return view('welcome');
+Route::get('/pruebas', function () {
+    return view('welcome');
     // if (!isset (Auth::user()->email)){
        
     //     return("no esta logueado");
     //     //die;
     // }
     // echo(Auth::user()->email);
-    Mail::to("alfredoromero@hotmail.com")->send(new TestMail("alfredo"));
-    return view('welcome');
     
 })->name('presentacion');
