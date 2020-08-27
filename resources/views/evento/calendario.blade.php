@@ -9,6 +9,13 @@
     body{
       font-family: 'Exo', sans-serif;
     }
+    figcaption {
+  background-color: black;
+  color: white;
+  font-style: italic;
+  padding: 2px;
+  text-align: center;
+}
     .header-col{
       background: #E3E9E5;
       color:#536170;
@@ -35,7 +42,7 @@
 
     <div class="container">
       <div style="height:50px"></div>
-      <h1>< tutofox /> <small>Oh my code!</small></h1>
+      <h1>Reserva</h1>
       <p class="lead">
       <h3>Calendario - evento</h3>
       <a class="btn btn-default"  href="{{ asset('/Evento/form') }}">Crear un evento</a>
@@ -70,14 +77,14 @@
         <div class="row">
           <!-- ciclo de dia por semana -->
           @foreach  ($weekdata['datos'] as $dayweek)
-
           @if  ($dayweek['mes']==$mes)
-            <div class="col box-day">
+            <div class="col box-day" onclick="ver({{ $dayweek['dia']  }})" id="{{ $dayweek['dia']  }}">
               {{ $dayweek['dia']  }}
+              <figcaption>Fig.1 - </figcaption>
               <!-- evento -->
               @foreach  ($dayweek['evento'] as $event) 
                   <a class="badge badge-primary" href="{{ asset('/Evento/details/') }}/{{ $event->id }}">
-                    {{ $event->titulo }}
+                    {{ $event->titulo }} 
                   </a>
               @endforeach
             </div>
@@ -95,15 +102,20 @@
 
     <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">
-    Developed by Artyom from
-    <a href="https://www.tutofox.com/">  < tutofox/></a>
-  </div>
-  <!-- Copyright -->
+ 
 
 </footer>
 <!-- Footer -->
-
+<script>
+  function ver(e){
+    if(e<10){
+      a="0"+e;
+    }else{
+      a=e;
+    }
+    //alert(a);
+    document.getElementById(a).style.backgroundColor = "lightblue";
+  }
+</script>
   </body>
 </html>

@@ -35,7 +35,7 @@
 
     <div class="container">
       <div style="height:50px"></div>
-      <h1>< tutofox /> <small>Oh my code!</small></h1>
+      <h1>Reserva</h1>
       <p class="lead">
       <h3>Evento</h3>
       <p>Detalles de evento</p>

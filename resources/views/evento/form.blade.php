@@ -35,7 +35,7 @@
 
     <div class="container">
       <div style="height:50px"></div>
-      <h1>< tutofox /> <small>Oh my code!</small></h1>
+      <h1>Reserva</h1>
       <p class="lead">
       <h3>Evento</h3>
       <p>Formulario de evento</p>
@@ -72,8 +72,12 @@
             <input type="text" class="form-control" name="descripcion">
           </div>
           <div class="fomr-group">
-            <label>Fecha</label>
-            <input type="date" class="form-control" name="fecha">
+            <label>Fecha de Ingreso</label>
+            <input type="date" class="form-control" name="fechaIngreso">
+          </div>
+          <div class="fomr-group">
+            <label>Fecha de Egreso</label>
+            <input type="date" class="form-control" name="fechaEgreso">
           </div>
           <br>
           <input type="submit" class="btn btn-info" value="Guardar">
@@ -88,12 +92,7 @@
 
     <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
-  <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">
-    Developed by Artyom from
-    <a href="https://www.tutofox.com/">  < tutofox/></a>
-  </div>
-  <!-- Copyright -->
+ 
 
 </footer>
 <!-- Footer -->

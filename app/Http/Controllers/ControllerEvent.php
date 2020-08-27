@@ -15,18 +15,20 @@ class ControllerEvent extends Controller
     public function create(Request $request){
 
       $this->validate($request, [
-      'titulo'     =>  'required',
+      'titulo'       =>  'required',
       'descripcion'  =>  'required',
-      'fecha' =>  'required'
+      'fechaIngreso' =>  'required',
+      'fechaEgreso' =>  'required'
      ]);
 
       Event::insert([
         'titulo'       => $request->input("titulo"),
         'descripcion'  => $request->input("descripcion"),
-        'fecha'        => $request->input("fecha")
+        'fechaIngreso'        => $request->input("fechaIngreso"),
+        'fechaEgreso'        => $request->input("fechaEgreso")
       ]);
 
-      return back()->with('success', 'Enviado exitosamente!');
+      return back()->with('success', 'Reserva generada exitosamente!');
 
     }
 
@@ -44,8 +46,9 @@ class ControllerEvent extends Controller
     // =================== CALENDARIO =====================
 
     public function index(){
-
+      
        $month = date("Y-m");
+       
        //
        $data = $this->calendar_month($month);
        $mes = $data['month'];
@@ -87,6 +90,7 @@ class ControllerEvent extends Controller
       $daysmonth  =  date("d", strtotime($fecha));
       $montmonth  =  date("m", strtotime($fecha));
       $yearmonth  =  date("Y", strtotime($fecha));
+      
       // sacar el lunes de la primera semana
       $nuevaFecha = mktime(0,0,0,$montmonth,$daysmonth,$yearmonth);
       $diaDeLaSemana = date("w", $nuevaFecha);
@@ -121,7 +125,7 @@ class ControllerEvent extends Controller
             $datanew['dia'] = date("d", strtotime($datafecha));
             $datanew['fecha'] = $datafecha;
             //AGREGAR CONSULTAS EVENTO
-            $datanew['evento'] = Event::where("fecha",$datafecha)->get();
+            $datanew['evento'] = Event::where("fechaIngreso",$datafecha)->get();
 
             array_push($weekdata,$datanew);
           }
@@ -135,12 +139,13 @@ class ControllerEvent extends Controller
       $month = date("M",strtotime($mes));
       $yearmonth = date("Y",strtotime($mes));
       //$month = date("M",strtotime("2019-03"));
+      
       $data = array(
-        'next' => $nextmonth,
-        'month'=> $month,
-        'year' => $yearmonth,
-        'last' => $lastmonth,
-        'calendar' => $calendario,
+        'next'      => $nextmonth,
+        'month'     => $month,
+        'year'      => $yearmonth,
+        'last'      => $lastmonth,
+        'calendar'  => $calendario,
       );
       return $data;
     }
