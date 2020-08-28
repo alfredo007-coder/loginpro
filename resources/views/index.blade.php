@@ -73,6 +73,7 @@
           @if  ($dayweek['mes']==$mes)
             <div class="col box-day">
               {{ $dayweek['dia']  }}
+              
             </div>
           @else
           <div class="col box-dayoff">
