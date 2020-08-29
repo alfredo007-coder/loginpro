@@ -10,12 +10,19 @@
       font-family: 'Exo', sans-serif;
     }
     figcaption {
-  background-color: black;
-  color: white;
-  font-style: italic;
-  padding: 2px;
-  text-align: center;
-}
+      background-color: black;
+      color: orange;
+      font-style: italic;
+      padding: 2px;
+      position: absolute;
+      width: 150px;
+      left: 0px;
+      text-align: center;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: block;
+      overflow: hidden
+    }
     .header-col{
       background: #E3E9E5;
       color:#536170;
@@ -71,20 +78,29 @@
         <div class="col header-col">Viernes</div>
         <div class="col header-col">Sabado</div>
         <div class="col header-col">Domingo</div>
+       
       </div>
       <!-- inicio de semana -->
       @foreach ($data['calendar'] as $weekdata)
+      
         <div class="row">
           <!-- ciclo de dia por semana -->
           @foreach  ($weekdata['datos'] as $dayweek)
+          
           @if  ($dayweek['mes']==$mes)
             <div class="col box-day" onclick="ver({{ $dayweek['dia']  }})" id="{{ $dayweek['dia']  }}">
-              {{ $dayweek['dia']  }}
-              <figcaption>Fig.1 - </figcaption>
+              <div>{{ $dayweek['dia']  }}</div>
+              
               <!-- evento -->
-              @foreach  ($dayweek['evento'] as $event) 
+              @foreach  ($dayweek['evento'] as $event)
+                <!-- <script>
+                  var a =  {{ $event->fechaIngreso }} - {{ $event->fechaEgres }}
+                </script>
+                <figcaption id="{{ $event->id }}">{{ $event->fechaIngreso }}</figcaption> -->
+                  
+                  
                   <a class="badge badge-primary" href="{{ asset('/Evento/details/') }}/{{ $event->id }}">
-                    {{ $event->titulo }} 
+                    <figcaption id="{{ $event->id }}">{{ $event->fechaIngreso }}</figcaption>
                   </a>
               @endforeach
             </div>
@@ -114,7 +130,13 @@
       a=e;
     }
     //alert(a);
-    document.getElementById(a).style.backgroundColor = "lightblue";
+    //document.getElementById(a).style.backgroundColor = "lightblue";
+    
+    ancho = document.getElementById(a).clientWidth;
+    //alert(ancho);
+    ancho = ancho * 1;
+    document.getElementById("7").style.width = ancho;
+    
   }
 </script>
   </body>
