@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Event;
+use Illuminate\Support\Facades\DB;
 
 class ControllerEvent extends Controller
 {
@@ -48,18 +49,24 @@ class ControllerEvent extends Controller
     public function index(){
       
        $month = date("Y-m");
-       
+       $mesActual = date("n");
        //
        $data = $this->calendar_month($month);
        $mes = $data['month'];
        // obtener mes en espanol
        $mespanish = $this->spanish_month($mes);
        $mes = $data['month'];
-       
+       //$eventos = Event->where("fechaIngreso",$datafecha)->get();
+       //$users = $users->diff(User::whereIn('id', [1, 2, 3])->get());
+       $eventos= DB::table('evento')
+              ->whereMonth('FechaIngreso',$mesActual)         
+              ->get();
+      //dd($eventos[0]->id);
        return view("evento/calendario",[
          'data' => $data,
          'mes' => $mes,
-         'mespanish' => $mespanish
+         'mespanish' => $mespanish,
+         'eventos' => $eventos
        ]);
 
    }
@@ -71,7 +78,7 @@ class ControllerEvent extends Controller
       // obtener mes en espanol
       $mespanish = $this->spanish_month($mes);
       $mes = $data['month'];
-
+      
       return view("evento/calendario",[
         'data' => $data,
         'mes' => $mes,

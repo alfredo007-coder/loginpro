@@ -45,7 +45,7 @@
     </style>
 
   </head>
-  <body>
+  <body >
 
     <div class="container">
       <div style="height:50px"></div>
@@ -88,7 +88,7 @@
           @foreach  ($weekdata['datos'] as $dayweek)
           
           @if  ($dayweek['mes']==$mes)
-            <div class="col box-day" onclick="ver({{ $dayweek['dia']  }})" id="{{ $dayweek['dia']  }}">
+            <div class="col box-day" onclick="cargarEventos()" id="{{ $dayweek['dia']  }}">
               <div>{{ $dayweek['dia']  }}</div>
               
               <!-- evento -->
@@ -98,10 +98,12 @@
                 </script>
                 <figcaption id="{{ $event->id }}">{{ $event->fechaIngreso }}</figcaption> -->
                   
-                  
+                 
                   <a class="badge badge-primary" href="{{ asset('/Evento/details/') }}/{{ $event->id }}">
-                    <figcaption id="{{ $event->id }}">{{ $event->fechaIngreso }}</figcaption>
+                  <figcaption id="{{ $event->id }}">{{ $event->fechaEgreso }}</figcaption> 
                   </a>
+                  
+                  
               @endforeach
             </div>
           @else
@@ -113,9 +115,9 @@
           @endforeach
         </div>
       @endforeach
-
+    
     </div> <!-- /container -->
-
+    
     <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
  
@@ -123,7 +125,51 @@
 </footer>
 <!-- Footer -->
 <script>
-  function ver(e){
+function cargarEventos(){
+  @foreach  ($eventos as $evento)
+    //alert ({{$evento->id}});
+    var ing =  "{{$evento->fechaIngreso}}"+":00:00:00";
+    ing = new Date(ing);
+    var year = ing.getFullYear();
+    var mes =  ing.getMonth()+1; 
+    var ultimoDiaSemana = 7-ing.getDay();
+    ing = ing.getDate();
+    ultimoDiaSemana = ultimoDiaSemana + ing;
+    var ultimoDiaMes = new Date(year, mes, 0);;
+     
+    var egr =  "{{$evento->fechaEgreso}}"+":00:00:00";
+    egr = new Date(egr);
+    egr = egr.getDate();
+    var cont = 0;
+    var actual=ing;
+    //pintar los dias de reserva
+    while (actual<=egr && actual<=ultimoDiaSemana && actual<=ultimoDiaMes){
+      
+          cont ++;
+          actual++;
+          console.log("cont:" + cont);
+        
+    }
+    ancho = document.getElementById("01").clientWidth * cont + cont;
+    document.getElementById({{$evento->id}}).style.width = ancho;
+    if(actual<egr){
+      ultimoDiaSemana = ultimoDiaSemana + 7;
+      cont = 0;
+      while (actual<=egr && actual<=ultimoDiaSemana && actual<=ultimoDiaMes){
+        cont ++;
+        actual++;
+        console.log("cont:" + cont);
+      }
+      ancho = document.getElementById("01").clientWidth * cont + cont;
+      document.getElementById({{$evento->id}}).style.width = ancho;
+     
+    }
+    
+    
+    
+  @endforeach
+  }
+function calculaAncho(e){
     if(e<10){
       a="0"+e;
     }else{
@@ -133,11 +179,13 @@
     //document.getElementById(a).style.backgroundColor = "lightblue";
     
     ancho = document.getElementById(a).clientWidth;
+    return ancho;
     //alert(ancho);
-    ancho = ancho * 1;
-    document.getElementById("7").style.width = ancho;
+    //ancho = ancho * 1;
+    //document.getElementById("7").style.width = '800px';
     
   }
+  
 </script>
   </body>
 </html>
