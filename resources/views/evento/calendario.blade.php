@@ -15,7 +15,7 @@
       font-style: italic;
       padding: 2px;
       position: absolute;
-      width: 150px;
+      width: 0px;
       left: 0px;
       text-align: center;
       white-space: nowrap;
@@ -88,7 +88,7 @@
           @foreach  ($weekdata['datos'] as $dayweek)
           
           @if  ($dayweek['mes']==$mes)
-            <div class="col box-day" onclick="cargarEventos()" id="{{ $dayweek['dia']  }}">
+            <div class="col box-day" onclick="cargarEventos_1()" id="{{ $dayweek['dia']  }}">
               <div>{{ $dayweek['dia']  }}</div>
               
               <!-- evento -->
@@ -100,10 +100,10 @@
                   
                  
                   <a class="badge badge-primary" href="{{ asset('/Evento/details/') }}/{{ $event->id }}">
-                  <figcaption id="{{ $event->id }}">{{ $event->fechaEgreso }}</figcaption> 
+                  <figcaption>{{ $event->fechaEgreso }}</figcaption> 
                   </a>
                   
-                  
+                    
               @endforeach
             </div>
           @else
@@ -131,9 +131,11 @@ function cargarEventos(){
     var ing =  "{{$evento->fechaIngreso}}"+":00:00:00";
     ing = new Date(ing);
     var year = ing.getFullYear();
-    var mes =  ing.getMonth()+1; 
-    var ultimoDiaSemana = 7-ing.getDay();
+    var mes =  ing.getMonth()+1;
+     
+    var ultimoDiaSemana =ing.getDay()==0 ? 0 : 7-ing.getDay();
     ing = ing.getDate();
+    
     ultimoDiaSemana = ultimoDiaSemana + ing;
     var ultimoDiaMes = new Date(year, mes, 0);;
      
@@ -143,33 +145,31 @@ function cargarEventos(){
     var cont = 0;
     var actual=ing;
     //pintar los dias de reserva
+    for (actual=ing;actual<=egr;actual++){
+
+    }
     while (actual<=egr && actual<=ultimoDiaSemana && actual<=ultimoDiaMes){
       
           cont ++;
           actual++;
-          console.log("cont:" + cont);
+          console.log("cont:" + cont + " act:" + actual + " ing:"+ ing + " egr:" + egr +" semana:" + ultimoDiaSemana+ " mes:" + ultimoDiaMes );
         
     }
-    ancho = document.getElementById("01").clientWidth * cont + cont;
+    
+    ancho = document.getElementById("01").clientWidth * cont + cont; 
     document.getElementById({{$evento->id}}).style.width = ancho;
-    if(actual<egr){
+    if (actual==ultimoDiaSemana){
       ultimoDiaSemana = ultimoDiaSemana + 7;
-      cont = 0;
-      while (actual<=egr && actual<=ultimoDiaSemana && actual<=ultimoDiaMes){
-        cont ++;
-        actual++;
-        console.log("cont:" + cont);
-      }
-      ancho = document.getElementById("01").clientWidth * cont + cont;
-      document.getElementById({{$evento->id}}).style.width = ancho;
-     
+        
     }
     
-    
-    
   @endforeach
+    var node = document.createElement("figcaption");                 
+    var textnode = document.createTextNode("Water");         
+    node.appendChild(textnode);                              
+    document.getElementById("25").appendChild(node);
   }
-function calculaAncho(e){
+  function calculaAncho(e){
     if(e<10){
       a="0"+e;
     }else{
@@ -185,7 +185,80 @@ function calculaAncho(e){
     //document.getElementById("7").style.width = '800px';
     
   }
+function cargarEventos_1(){
+  @foreach  ($eventos as $evento)
   
+    var ing =  "{{$evento->fechaIngreso}}"+":00:00:00";
+    ing = new Date(ing);
+    var year = ing.getFullYear();
+    var mes =  ing.getMonth()+1;
+    var idEvento = {{$evento->id}};
+    
+    var texto = "{{$evento->titulo}}"; 
+    var ultimoDiaSemana = ing.getDay()==0 ? 0 : 7-ing.getDay();
+    ingDia = ing.getDate();
+    
+    ultimoDiaSemana = ultimoDiaSemana + ingDia;
+    var ultimoDiaMes = new Date(year, mes, 0);;
+     
+    var egr =  "{{$evento->fechaEgreso}}"+":00:00:00";
+    egr = new Date(egr);
+    egrDia = egr.getDate();
+    //console.log(ing.getMonth() +" " + egr.getMonth() );
+    var pintar;
+    var dia;
+    var semana;
+    if(ing.getMonth()==egr.getMonth()){
+      
+      if(egrDia<ultimoDiaSemana){ // el ingreso y el etreso estan en la misma semana
+        pintar = egrDia-ingDia+1;
+        var dia = ingDia;
+        agregarTarea(dia,pintar,idEvento,texto);
+        
+      } else { // el ingreso y el etreso NO estan en la misma semana
+        //pinta primera semana
+        pintar = ultimoDiaSemana-ingDia+1;
+        dia = ingDia;
+        semana = 1;
+        idEvento = idEvento + "-" + semana;
+        agregarTarea(dia,pintar,idEvento,texto);
+        ultimoDiaSemana = ultimoDiaSemana + 7;
+        primerDiaSemana = ultimoDiaSemana -6;
+        while (egrDia>ultimoDiaSemana){
+          //pintar semanas del medio
+          pintar = ultimoDiaSemana-primerDiaSemana+1;
+          dia = primerDiaSemana;
+          semana ++;
+          idEvento = idEvento + "-" + semana;
+          agregarTarea(dia,pintar,idEvento,texto);
+          ultimoDiaSemana = ultimoDiaSemana + 7;
+          primerDiaSemana = ultimoDiaSemana -6;
+        }
+        //pintar ultima semana
+        pintar = egrDia-primerDiaSemana+1;
+        dia = primerDiaSemana;
+        semana ++;
+        idEvento = idEvento + "-" + semana;
+        agregarTarea(dia,pintar,idEvento,texto);
+
+      }
+    }
+
+
+  @endforeach
+} 
+
+function  agregarTarea(dia,pintar,idEvento,texto){
+    var node = document.createElement("figcaption");
+    node.setAttribute("id", idEvento);                 
+    var textnode = document.createTextNode(texto);         
+    node.appendChild(textnode);
+    if(dia<10){dia="0" + dia};
+    
+    document.getElementById(dia).appendChild(node);
+    var ancho = document.getElementById("01").clientWidth * pintar + pintar; 
+    document.getElementById(idEvento).style.width = ancho;
+} 
 </script>
   </body>
 </html>
