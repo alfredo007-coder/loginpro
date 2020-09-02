@@ -187,11 +187,13 @@ function cargarEventos(){
   }
 function cargarEventos_1(){
   @foreach  ($eventos as $evento)
-  
-    var ing =  "{{$evento->fechaIngreso}}"+":00:00:00";
+    var mesCalendario = "{{$data['month']}}";
+    var yearCalendario = {{$data['year']}};
+    var ing =  "{{$evento->fechaIngreso}}" + ":00:00:00" ;
     ing = new Date(ing);
     var year = ing.getFullYear();
     var mes =  ing.getMonth()+1;
+    console.log(mes + " " + mesCalendario);
     var idEvento = {{$evento->id}};
     
     var texto = "{{$evento->titulo}}"; 
