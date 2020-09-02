@@ -99,9 +99,7 @@
                 <figcaption id="{{ $event->id }}">{{ $event->fechaIngreso }}</figcaption> -->
                   
                  
-                  <a class="badge badge-primary" href="{{ asset('/Evento/details/') }}/{{ $event->id }}">
-                  <figcaption>{{ $event->fechaEgreso }}</figcaption> 
-                  </a>
+                  
                   
                     
               @endforeach
