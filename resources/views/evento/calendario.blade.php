@@ -189,11 +189,15 @@ function cargarEventos_1(){
   @foreach  ($eventos as $evento)
     var mesCalendario = "{{$data['month']}}";
     var yearCalendario = {{$data['year']}};
-    var ing =  "{{$evento->fechaIngreso}}" + ":00:00:00" ;
+    var primerDiaMes = new Date(yearCalendario  + "-" + mesCalendario + "-" + "1" + ":00:00:00");
+    var ing =  "{{$evento->fechaIngreso}}" + ":00:00:00";
     ing = new Date(ing);
+    
+    
+    ing = (primerDiaMes>ing)?primerDiaMes:ing; 
     var year = ing.getFullYear();
     var mes =  ing.getMonth()+1;
-    console.log(mes + " " + mesCalendario);
+    
     var idEvento = {{$evento->id}};
     
     var texto = "{{$evento->titulo}}"; 
@@ -205,6 +209,13 @@ function cargarEventos_1(){
      
     var egr =  "{{$evento->fechaEgreso}}"+":00:00:00";
     egr = new Date(egr);
+    
+    var ultimoDiaMes =   new Date(yearCalendario  + "-" + mesCalendario + "-" + "1");
+    ultimoDiaMes = new Date(ultimoDiaMes.getFullYear() , ultimoDiaMes.getMonth() + 1, 0); 
+    
+    egr=(ultimoDiaMes<egr)?ultimoDiaMes:egr;
+    
+
     egrDia = egr.getDate();
     //console.log(ing.getMonth() +" " + egr.getMonth() );
     var pintar;

@@ -11,7 +11,7 @@ class Event extends Model
 
     //
     protected $fillable = [
-        'titulo', 'descripcion', 'fechaIngreso', 'fechaEgreso',
+        'titulo', 'descripcion', 'fechaIngreso', 'fechaEgreso','estado',
     ];
 
     public $timestamps = false;

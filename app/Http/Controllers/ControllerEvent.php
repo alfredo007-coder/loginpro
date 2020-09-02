@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Event;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 
 class ControllerEvent extends Controller
@@ -56,12 +57,24 @@ class ControllerEvent extends Controller
        // obtener mes en espanol
        $mespanish = $this->spanish_month($mes);
        $mes = $data['month'];
-       //$eventos = Event->where("fechaIngreso",$datafecha)->get();
-       //$users = $users->diff(User::whereIn('id', [1, 2, 3])->get());
+       
+       $fechaDesde = new DateTime();
+       $fechaDesde->modify('first day of this month');
+       $fechaHasta = new DateTime();
+       $fechaHasta->modify('last day of this month');
+       //dd($fechaHasta);
        $eventos= DB::table('evento')
-              ->whereMonth('FechaIngreso',$mesActual)         
+              ->where('estado',1)
+              ->where(function($query) use($mesActual,$fechaDesde,$fechaHasta){
+                $query->whereMonth('FechaIngreso',$mesActual)
+                ->orwhereMonth('FechaEgreso',$mesActual)
+                ->orwhere(function($query) use($fechaDesde,$fechaHasta){
+                  $query->whereDate('FechaIngreso', '<', $fechaDesde)
+                        ->whereDate('FechaEgreso', '>', $fechaHasta);
+                  });
+              })
               ->get();
-      //dd($eventos[0]->id);
+      //dd($data);
        return view("evento/calendario",[
          'data' => $data,
          'mes' => $mes,
