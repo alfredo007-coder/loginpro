@@ -10,7 +10,7 @@
       font-family: 'Exo', sans-serif;
     }
     figcaption {
-      background-color: black;
+      background-color: #F0F8FF;
       color: orange;
       font-style: italic;
       border-radius: 15px;
@@ -34,7 +34,9 @@
     }
     .header-calendar{
       
-      background: #EE192D;color:white;
+      background: #EE192D;color:blueviolet;
+    
+      background-image: url("/img/Screenshot_4.png");
     }
     .box-day{
       border:1px solid #E3E9E5;
