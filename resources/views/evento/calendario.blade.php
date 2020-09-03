@@ -45,6 +45,13 @@
       height:150px;
       background-color: #ccd1ce;
     }
+
+    .cabecera{
+    position: -webkit-sticky; /* Safari */
+    position: sticky; z-index: 3; 
+    opacity:0.9;
+    top: 0;
+    }
     </style>
 
   </head>
@@ -59,29 +66,30 @@
 
 
       <hr>
+      <div class="cabecera">
+          <div class="row header-calendar"  >
 
-      <div class="row header-calendar"  >
+            <div class="col" style="display: flex; justify-content: space-between; padding: 10px;">
+              <a  href="{{ asset('/Calendar/event/') }}/<?= $data['last']; ?>" style="margin:10px;">
+                <i class="fas fa-chevron-circle-left" style="font-size:30px;color:white;"></i>
+              </a>
+              <h2 style="font-weight:bold;margin:10px;"><?= $mespanish; ?> <small><?= $data['year']; ?></small></h2>
+              <a  href="{{ asset('/Calendar/event/') }}/<?= $data['next']; ?>" style="margin:10px;">
+                <i class="fas fa-chevron-circle-right" style="font-size:30px;color:white;"></i>
+              </a>
+            </div>
 
-        <div class="col" style="display: flex; justify-content: space-between; padding: 10px;">
-          <a  href="{{ asset('/Calendar/event/') }}/<?= $data['last']; ?>" style="margin:10px;">
-            <i class="fas fa-chevron-circle-left" style="font-size:30px;color:white;"></i>
-          </a>
-          <h2 style="font-weight:bold;margin:10px;"><?= $mespanish; ?> <small><?= $data['year']; ?></small></h2>
-          <a  href="{{ asset('/Calendar/event/') }}/<?= $data['next']; ?>" style="margin:10px;">
-            <i class="fas fa-chevron-circle-right" style="font-size:30px;color:white;"></i>
-          </a>
-        </div>
-
-      </div>
-      <div class="row">
-        <div class="col header-col">Lunes</div>
-        <div class="col header-col">Martes</div>
-        <div class="col header-col">Miercoles</div>
-        <div class="col header-col">Jueves</div>
-        <div class="col header-col">Viernes</div>
-        <div class="col header-col">Sabado</div>
-        <div class="col header-col">Domingo</div>
-       
+          </div>
+          <div class="row dias" >
+            <div class="col header-col">Lunes</div>
+            <div class="col header-col">Martes</div>
+            <div class="col header-col">Miercoles</div>
+            <div class="col header-col">Jueves</div>
+            <div class="col header-col">Viernes</div>
+            <div class="col header-col">Sabado</div>
+            <div class="col header-col">Domingo</div>
+          
+          </div>
       </div>
       <!-- inicio de semana -->
       @foreach ($data['calendar'] as $weekdata)
@@ -189,7 +197,7 @@ function cargarEventos(){
 function cargarEventos_1(){
   var altura=-20;
   @foreach  ($eventos as $evento)
-    altura = altura + 20;
+    altura = altura + 25;
     var mesCalendario = "{{$data['month']}}";
     var yearCalendario = {{$data['year']}};
     var primerDiaMes = new Date(yearCalendario  + "-" + mesCalendario + "-" + "1" + ":00:00:00");
