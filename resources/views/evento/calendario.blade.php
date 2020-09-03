@@ -13,10 +13,12 @@
       background-color: black;
       color: orange;
       font-style: italic;
-      padding: 2px;
+      border-radius: 15px;
+      margin-top:1.1em;
       position: absolute;
       width: 0px;
       left: 0px;
+      padding: 0px;
       text-align: center;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -31,6 +33,7 @@
       font-weight: bold;
     }
     .header-calendar{
+      
       background: #EE192D;color:white;
     }
     .box-day{
@@ -184,7 +187,9 @@ function cargarEventos(){
     
   }
 function cargarEventos_1(){
+  var altura=-20;
   @foreach  ($eventos as $evento)
+    altura = altura + 20;
     var mesCalendario = "{{$data['month']}}";
     var yearCalendario = {{$data['year']}};
     var primerDiaMes = new Date(yearCalendario  + "-" + mesCalendario + "-" + "1" + ":00:00:00");
@@ -224,7 +229,7 @@ function cargarEventos_1(){
       if(egrDia<ultimoDiaSemana){ // el ingreso y el etreso estan en la misma semana
         pintar = egrDia-ingDia+1;
         var dia = ingDia;
-        agregarTarea(dia,pintar,idEvento,texto);
+        agregarTarea(dia,pintar,idEvento,texto,altura);
         
       } else { // el ingreso y el etreso NO estan en la misma semana
         //pinta primera semana
@@ -232,7 +237,7 @@ function cargarEventos_1(){
         dia = ingDia;
         semana = 1;
         idEvento = idEvento + "-" + semana;
-        agregarTarea(dia,pintar,idEvento,texto);
+        agregarTarea(dia,pintar,idEvento,texto,altura);
         ultimoDiaSemana = ultimoDiaSemana + 7;
         primerDiaSemana = ultimoDiaSemana -6;
         while (egrDia>ultimoDiaSemana){
@@ -241,7 +246,7 @@ function cargarEventos_1(){
           dia = primerDiaSemana;
           semana ++;
           idEvento = idEvento + "-" + semana;
-          agregarTarea(dia,pintar,idEvento,texto);
+          agregarTarea(dia,pintar,idEvento,texto,altura);
           ultimoDiaSemana = ultimoDiaSemana + 7;
           primerDiaSemana = ultimoDiaSemana -6;
         }
@@ -250,7 +255,7 @@ function cargarEventos_1(){
         dia = primerDiaSemana;
         semana ++;
         idEvento = idEvento + "-" + semana;
-        agregarTarea(dia,pintar,idEvento,texto);
+        agregarTarea(dia,pintar,idEvento,texto,altura);
 
       }
     }
@@ -259,16 +264,17 @@ function cargarEventos_1(){
   @endforeach
 } 
 
-function  agregarTarea(dia,pintar,idEvento,texto){
+function  agregarTarea(dia,pintar,idEvento,texto,altura){
+    console.log(altura);
     var node = document.createElement("figcaption");
     node.setAttribute("id", idEvento);                 
     var textnode = document.createTextNode(texto);         
     node.appendChild(textnode);
     if(dia<10){dia="0" + dia};
-    
     document.getElementById(dia).appendChild(node);
     var ancho = document.getElementById("01").clientWidth * pintar + pintar; 
     document.getElementById(idEvento).style.width = ancho;
+    document.getElementById(idEvento).style.top = altura;
 } 
 </script>
   </body>
