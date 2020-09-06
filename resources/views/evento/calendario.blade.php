@@ -10,8 +10,8 @@
       font-family: 'Exo', sans-serif;
     }
     figcaption {
-      background-color: #F0F8FF;
-      color: orange;
+      
+      color: black;
       font-style: italic;
       border-radius: 15px;
       margin-top:1.1em;
@@ -26,17 +26,19 @@
       overflow: hidden
     }
     .header-col{
-      background: #E3E9E5;
-      color:#536170;
+      background: #22c1c3;
+      color:#080894;
       text-align: center;
       font-size: 20px;
       font-weight: bold;
     }
     .header-calendar{
-      
-      background: #EE192D;color:blueviolet;
+      background: rgb(2,0,36);
+      background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(8,8,148,0.9755252442773985) 22%, rgba(0,212,255,1) 100%);
+      color:black;
+     
     
-      background-image: url("/img/Screenshot_4.png");
+      
     }
     .box-day{
       border:1px solid #E3E9E5;
@@ -213,7 +215,7 @@ function cargarEventos_1(){
     
     var idEvento = {{$evento->id}};
     
-    var texto = "{{$evento->titulo}}"; 
+    var texto = "{{$evento->titulo}}" + "*{{$evento->fechaIngreso}}* " + " *{{$evento->fechaEgreso}}*"; 
     var ultimoDiaSemana = ing.getDay()==0 ? 0 : 7-ing.getDay();
     ingDia = ing.getDate();
     
@@ -234,12 +236,13 @@ function cargarEventos_1(){
     var pintar;
     var dia;
     var semana;
+    var color = "{{$evento->color}}";
     if(ing.getMonth()==egr.getMonth()){
       
       if(egrDia<ultimoDiaSemana){ // el ingreso y el etreso estan en la misma semana
         pintar = egrDia-ingDia+1;
         var dia = ingDia;
-        agregarTarea(dia,pintar,idEvento,texto,altura);
+        agregarTarea(dia,pintar,idEvento,texto,altura,color);
         
       } else { // el ingreso y el etreso NO estan en la misma semana
         //pinta primera semana
@@ -247,7 +250,7 @@ function cargarEventos_1(){
         dia = ingDia;
         semana = 1;
         idEvento = idEvento + "-" + semana;
-        agregarTarea(dia,pintar,idEvento,texto,altura);
+        agregarTarea(dia,pintar,idEvento,texto,altura,color);
         ultimoDiaSemana = ultimoDiaSemana + 7;
         primerDiaSemana = ultimoDiaSemana -6;
         while (egrDia>ultimoDiaSemana){
@@ -256,7 +259,7 @@ function cargarEventos_1(){
           dia = primerDiaSemana;
           semana ++;
           idEvento = idEvento + "-" + semana;
-          agregarTarea(dia,pintar,idEvento,texto,altura);
+          agregarTarea(dia,pintar,idEvento,texto,altura,color);
           ultimoDiaSemana = ultimoDiaSemana + 7;
           primerDiaSemana = ultimoDiaSemana -6;
         }
@@ -265,7 +268,7 @@ function cargarEventos_1(){
         dia = primerDiaSemana;
         semana ++;
         idEvento = idEvento + "-" + semana;
-        agregarTarea(dia,pintar,idEvento,texto,altura);
+        agregarTarea(dia,pintar,idEvento,texto,altura,color);
 
       }
     }
@@ -274,8 +277,9 @@ function cargarEventos_1(){
   @endforeach
 } 
 
-function  agregarTarea(dia,pintar,idEvento,texto,altura){
-    console.log(altura);
+function  agregarTarea(dia,pintar,idEvento,texto,altura,color){
+    //console.log(color);
+    
     var node = document.createElement("figcaption");
     node.setAttribute("id", idEvento);                 
     var textnode = document.createTextNode(texto);         
@@ -285,6 +289,8 @@ function  agregarTarea(dia,pintar,idEvento,texto,altura){
     var ancho = document.getElementById("01").clientWidth * pintar + pintar; 
     document.getElementById(idEvento).style.width = ancho;
     document.getElementById(idEvento).style.top = altura;
+    document.getElementById(idEvento).style.backgroundColor = color;
+
 } 
 </script>
   </body>

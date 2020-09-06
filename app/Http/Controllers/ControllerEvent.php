@@ -64,6 +64,7 @@ class ControllerEvent extends Controller
        $fechaHasta->modify('last day of this month');
        //dd($fechaHasta);
        $eventos= DB::table('evento')
+              ->join('propiedad', 'propiedad.id', '=', 'evento.idPropiedad')
               ->where('estado',1)
               ->where(function($query) use($mesActual,$fechaDesde,$fechaHasta){
                 $query->whereMonth('FechaIngreso',$mesActual)
@@ -74,7 +75,7 @@ class ControllerEvent extends Controller
                   });
               })
               ->get();
-      //dd($data);
+      //dd($eventos);
        return view("evento/calendario",[
          'data' => $data,
          'mes' => $mes,
