@@ -79,6 +79,10 @@
             <label>Fecha de Egreso</label>
             <input type="date" class="form-control" name="fechaEgreso">
           </div>
+          <div class="fomr-group">
+            <label>Cabaña</label>
+            <input type="select" class="form-control" name="cabana">
+          </div>
           <br>
           <input type="submit" class="btn btn-info" value="Guardar">
         </form>
