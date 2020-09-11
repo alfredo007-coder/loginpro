@@ -41,91 +41,94 @@
 
   </head>
   <body>
-
+  <div class="row mb-2 mt-5"> <!--Marco General-->
     <div class="container">
     <div class="card">
-      <div class="card-header">
-            <div style="height:50px"></div>
-            <h1>Reserva</h1>
-            <p class="lead">
-            <h3>Evento</h3>
-            <p>Formulario de evento</p>
-            <a class="btn btn-default"  href="{{ asset('/Evento/index') }}">Atras</a>
-            <hr>
-
-            @if (count($errors) > 0)
-              <div class="alert alert-danger">
-              <button type="button" class="close" data-dismiss="alert">×</button>
-              <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-              </ul>
+      <div class="card-header"> <!--header-->
+        <div class="row">
+                    
+            <div class="col-md-3">
+              <div class="fomr-group">
+                <label>Fecha de Ingreso</label>
+                <input type="date" class="form-control" name="fechaIngreso">
               </div>
-            @endif
-            @if ($message = Session::get('success'))
-            <div class="alert alert-success alert-block">
-              <button type="button" class="close" data-dismiss="alert">×</button>
-                <strong>{{ $message }}</strong>
             </div>
-            @endif
-        
-        </div>
-        <div class="card-body">Content</div>
-          <div class="row">
-              <div class="col-md-12">
-                <form action="{{ asset('/Evento/create/') }}" method="post">
-                  @csrf
-                  <div class="col-md-6">
-                    <div class="fomr-group">
-                      <label>Titulo</label>
-                      <input type="text" class="form-control" name="titulo">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="fomr-group">
-                      <label>Descripcion del Evento</label>
-                      <input type="text" class="form-control" name="descripcion">
-                    </div>
-                  </div>
-                  <div class="fomr-group">
-                    <label>Fecha de Ingreso</label>
-                    <input type="date" class="form-control" name="fechaIngreso">
-                  </div>
-                  <div class="fomr-group">
-                    <label>Fecha de Egreso</label>
-                    <input type="date" class="form-control" name="fechaEgreso">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="sel1">Seleccione la propiedad:</label>
-                    <select class="form-control" id="sel1">
-                      @foreach ($propiedades as $propiedad)
-                      <option value="{{$propiedad->id}}">{{$propiedad->nombre}}</option>
-                      @endforeach
-                    </select>            
-                    
-                  
-                    
-                  </div>
-                  <br>
-                  <input type="submit" class="btn btn-info" value="Guardar">
-                </form>
+            <div class="col-md-3">
+              <div class="fomr-group">
+                <label>Fecha de Egreso</label>
+                <input type="date" class="form-control" name="fechaEgreso">
               </div>
+            </div>
+            <div class="col-md-6">
+              <div class="fomr-group">
+                <label for="sel1">Seleccione la propiedad:</label>
+                <select class="form-control" id="sel1">
+                  @foreach ($propiedades as $propiedad)
+                  <option value="{{$propiedad->id}}">{{$propiedad->nombre}}</option>
+                  @endforeach
+                </select>  
+              </div>
+            </div>    
+        </div>     
+      </div> <!--Header-->
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4" >
+              <div class="fomr-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control" name="titulo">
+              </div>
+            </div>
+            <div class="col-md-8" >
+              <div class="fomr-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" placeholder="Ingrese su email" id="email">
+              </div>
+            </div>
           </div>
+          <div class="row mt-2">
+            <div class="col-md-2" >
+              <div class="fomr-group">
+                <label>Cel/Wapp</label>
+                <input type="text" class="form-control" name="titulo">
+              </div>
+            </div>
+            <div class="col-md-2" >
+              <div class="fomr-group">
+                <label>Cel Alternativo</label>
+                <input type="text" class="form-control" name="titulo">
+              </div>
+            </div>
+            <div class="col-md-2" >
+              <div class="fomr-group">
+                <label>Cant. Personas</label>
+                <input type="number" class="form-control" name="titulo">
+              </div>
+            </div>
+            <div class="col-md-6" >
+              <div class="fomr-group">
+                <label>Lugar de Residencia</label>
+                <input type="text" class="form-control" name="titulo">
+              </div>
+            </div>                
         </div>
-
+      </div> <!--car-body-->
+          
       <!-- inicio de semana -->
-
+     
+    </div> <!-- card -->
+    <div class="col text-right mt-2">
+      <input type="submit" class="btn btn-info" value="Guardar">
     </div>
     </div> <!-- /container -->
 
     <!-- Footer -->
-<footer class="page-footer font-small blue pt-4">
- 
+  </div>
+      <footer class="page-footer font-small blue pt-4">
+      
 
-</footer>
-<!-- Footer -->
-
+      </footer>
+      <!-- Footer -->
+  
   </body>
 </html>
