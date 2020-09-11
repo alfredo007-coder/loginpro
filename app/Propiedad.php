@@ -11,7 +11,7 @@ class Propiedad extends Model
 
     //
     protected $fillable = [
-        'id', 'nombre', 'color', 'detalles',
+        'id', 'nombre', 'color', 'detalles','estado'
     ];
 
     public $timestamps = false;

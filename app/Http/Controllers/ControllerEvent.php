@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Event;
+use App\Propiedad;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 
@@ -11,7 +12,10 @@ class ControllerEvent extends Controller
 {
     //
     public function form(){
-      return view("evento/form");
+      $propiedades = Propiedad::where('estado', 1)
+               ->get();
+      //dd($propiedades);
+      return view("evento/form",compact("propiedades"));
     }
 
     public function create(Request $request){
