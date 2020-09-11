@@ -41,94 +41,97 @@
 
   </head>
   <body>
-  <div class="row mb-2 mt-5"> <!--Marco General-->
-    <div class="container">
-    <div class="card">
-      <div class="card-header"> <!--header-->
-        <div class="row">
-                    
-            <div class="col-md-3">
-              <div class="fomr-group">
-                <label>Fecha de Ingreso</label>
-                <input type="date" class="form-control" name="fechaIngreso">
+    <div class="row mb-2 mt-5"> <!--Marco General-->
+      <div class="container">
+        <form action="{{ asset('/Evento/create/') }}" method="post">
+                  @csrf  
+          <div class="card">
+            <div class="card-header"> <!--header-->
+              <div class="row">
+                <div class="col-md-3">
+                    <div class="fomr-group">
+                      <label>Fecha de Ingreso</label>
+                      <input type="date" class="form-control" name="fechaIngreso" required>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="fomr-group">
+                      <label>Fecha de Egreso</label>
+                      <input type="date" class="form-control" name="fechaEgreso" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="fomr-group">
+                      <label for="sel1">Seleccione la propiedad:</label>
+                      <select class="form-control" id="sel_propiedad" required="required">
+                        <option selected disabled>Seleccione aqui</option>
+                        @foreach ($propiedades as $propiedad)
+                        <option value="{{$propiedad}}">{{$propiedad->nombre}}</option>
+                        @endforeach
+                      </select>  
+                    </div>
+                  </div>    
+              </div>     
+            </div> <!--Header-->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4" >
+                    <div class="fomr-group">
+                      <label>Nombre</label>
+                      <input type="text" class="form-control" name="titulo"required>
+                    </div>
+                  </div>
+                  <div class="col-md-8" >
+                    <div class="fomr-group">
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" placeholder="Ingrese su email" id="email" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-md-2" >
+                    <div class="fomr-group">
+                      <label>Cel/Wapp</label>
+                      <input type="text" class="form-control" name="titulo" required>
+                    </div>
+                  </div>
+                  <div class="col-md-2" >
+                    <div class="fomr-group">
+                      <label>Cel Alternativo</label>
+                      <input type="text" class="form-control" name="titulo" required>
+                    </div>
+                  </div>
+                  <div class="col-md-2" >
+                    <div class="fomr-group">
+                      <label>Cant. Personas</label>
+                      <input type="number" class="form-control" name="titulo" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6" >
+                    <div class="fomr-group">
+                      <label>Lugar de Residencia</label>
+                      <input type="text" class="form-control" name="titulo" required>
+                    </div>
+                  </div>                
               </div>
-            </div>
-            <div class="col-md-3">
-              <div class="fomr-group">
-                <label>Fecha de Egreso</label>
-                <input type="date" class="form-control" name="fechaEgreso">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="fomr-group">
-                <label for="sel1">Seleccione la propiedad:</label>
-                <select class="form-control" id="sel1">
-                  @foreach ($propiedades as $propiedad)
-                  <option value="{{$propiedad->id}}">{{$propiedad->nombre}}</option>
-                  @endforeach
-                </select>  
-              </div>
-            </div>    
-        </div>     
-      </div> <!--Header-->
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-4" >
-              <div class="fomr-group">
-                <label>Nombre</label>
-                <input type="text" class="form-control" name="titulo">
-              </div>
-            </div>
-            <div class="col-md-8" >
-              <div class="fomr-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" placeholder="Ingrese su email" id="email">
-              </div>
-            </div>
+            </div> <!--car-body-->
+          </div> <!-- card -->
+          <div class="col text-right mt-2">
+            <input type="submit" class="btn btn-info" onclick="guardar()" value="Guardar">
           </div>
-          <div class="row mt-2">
-            <div class="col-md-2" >
-              <div class="fomr-group">
-                <label>Cel/Wapp</label>
-                <input type="text" class="form-control" name="titulo">
-              </div>
-            </div>
-            <div class="col-md-2" >
-              <div class="fomr-group">
-                <label>Cel Alternativo</label>
-                <input type="text" class="form-control" name="titulo">
-              </div>
-            </div>
-            <div class="col-md-2" >
-              <div class="fomr-group">
-                <label>Cant. Personas</label>
-                <input type="number" class="form-control" name="titulo">
-              </div>
-            </div>
-            <div class="col-md-6" >
-              <div class="fomr-group">
-                <label>Lugar de Residencia</label>
-                <input type="text" class="form-control" name="titulo">
-              </div>
-            </div>                
-        </div>
-      </div> <!--car-body-->
-          
-      <!-- inicio de semana -->
-     
-    </div> <!-- card -->
-    <div class="col text-right mt-2">
-      <input type="submit" class="btn btn-info" value="Guardar">
+        </form>
+      </div> <!-- /container -->
     </div>
-    </div> <!-- /container -->
-
+    <footer class="page-footer font-small blue pt-4">
+    </footer>
     <!-- Footer -->
-  </div>
-      <footer class="page-footer font-small blue pt-4">
-      
-
-      </footer>
-      <!-- Footer -->
-  
   </body>
 </html>
+<script>
+  function guardar(){
+    
+    var cab = document.getElementById("sel_propiedad").value;
+    console.log(cab);
+    alert(cab.id);
+  }
+</script>
