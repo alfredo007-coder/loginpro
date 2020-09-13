@@ -19,19 +19,32 @@ class ControllerEvent extends Controller
     }
 
     public function create(Request $request){
-
+      
       $this->validate($request, [
-      'titulo'       =>  'required',
-      'descripcion'  =>  'required',
       'fechaIngreso' =>  'required',
-      'fechaEgreso' =>  'required'
+      'fechaEgreso' =>  'required',
+      'propiedadId' =>  'required', 
+      'nombre' =>  'required',
+      'email' =>  'required',
+      'wapp1' =>  'required',
+      'wapp2' =>  'required',
+      'cantPersonas' =>  'required',
+      'lugarResidencia' =>  'required'
+
      ]);
 
       Event::insert([
-        'titulo'       => $request->input("titulo"),
-        'descripcion'  => $request->input("descripcion"),
+        
         'fechaIngreso'        => $request->input("fechaIngreso"),
-        'fechaEgreso'        => $request->input("fechaEgreso")
+        'fechaEgreso'        => $request->input("fechaEgreso"),
+        'idPropiedad'        => $request->input("propiedadId"),
+        'nombre'        => $request->input("nombre"),
+        'email'        => $request->input("email"),
+        'wapp1'        => $request->input("wapp1"),
+        'wapp2'        => $request->input("wapp2"),
+        'cantPersonas'        => $request->input("cantPersonas"),
+        'lugarResidencia'        => $request->input("lugarResidencia")
+
       ]);
 
       return back()->with('success', 'Reserva generada exitosamente!');
@@ -69,7 +82,7 @@ class ControllerEvent extends Controller
        //dd($fechaHasta);
        $eventos= DB::table('evento')
               ->join('propiedad', 'propiedad.id', '=', 'evento.idPropiedad')
-              ->where('estado',1)
+              ->where('evento.estado',1)
               ->where(function($query) use($mesActual,$fechaDesde,$fechaHasta){
                 $query->whereMonth('FechaIngreso',$mesActual)
                 ->orwhereMonth('FechaEgreso',$mesActual)

@@ -51,24 +51,25 @@
                 <div class="col-md-3">
                     <div class="fomr-group">
                       <label>Fecha de Ingreso</label>
-                      <input type="date" class="form-control" name="fechaIngreso" required>
+                      <input type="date" class="form-control" name="fechaIngreso"  id="fechaIngreso" required>
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="fomr-group">
                       <label>Fecha de Egreso</label>
-                      <input type="date" class="form-control" name="fechaEgreso" required>
+                      <input type="date" class="form-control" name="fechaEgreso" id="fechaEgreso" required>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="fomr-group">
                       <label for="sel1">Seleccione la propiedad:</label>
-                      <select class="form-control" id="sel_propiedad" required="required">
+                      <select class="form-control" name="propiedad" id="sel_propiedad" required="required">
                         <option selected disabled>Seleccione aqui</option>
                         @foreach ($propiedades as $propiedad)
-                        <option value="{{$propiedad}}">{{$propiedad->nombre}}</option>
+                          <option value="{{$propiedad}}">{{$propiedad->nombre}}</option>
                         @endforeach
-                      </select>  
+                      </select>
+                      <input type="text" class="form-control" name="propiedadId" id="propiedadId" style="display:none">  
                     </div>
                   </div>    
               </div>     
@@ -78,13 +79,13 @@
                 <div class="col-md-4" >
                     <div class="fomr-group">
                       <label>Nombre</label>
-                      <input type="text" class="form-control" name="titulo"required>
+                      <input type="text" class="form-control" name="nombre"required>
                     </div>
                   </div>
                   <div class="col-md-8" >
                     <div class="fomr-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" placeholder="Ingrese su email" id="email" required>
+                      <input type="email" class="form-control" name="email" placeholder="Ingrese su email" id="email" required>
                     </div>
                   </div>
                 </div>
@@ -92,25 +93,26 @@
                   <div class="col-md-2" >
                     <div class="fomr-group">
                       <label>Cel/Wapp</label>
-                      <input type="text" class="form-control" name="titulo" required>
+                      <input type="tel" pattern="[0-9]{10}" class="form-control" name="wapp1" required>
+                      <small>Formato: 3511234567</small>
                     </div>
                   </div>
                   <div class="col-md-2" >
                     <div class="fomr-group">
                       <label>Cel Alternativo</label>
-                      <input type="text" class="form-control" name="titulo" required>
+                      <input type="text" pattern="[0-9]{10}" class="form-control" name="wapp2" required>
                     </div>
                   </div>
                   <div class="col-md-2" >
                     <div class="fomr-group">
                       <label>Cant. Personas</label>
-                      <input type="number" class="form-control" name="titulo" required>
+                      <input type="number" min="1" class="form-control" name="cantPersonas" id="cantPersonas"  required>
                     </div>
                   </div>
                   <div class="col-md-6" >
                     <div class="fomr-group">
                       <label>Lugar de Residencia</label>
-                      <input type="text" class="form-control" name="titulo" required>
+                      <input type="text" class="form-control" name="lugarResidencia" required>
                     </div>
                   </div>                
               </div>
@@ -131,7 +133,33 @@
   function guardar(){
     
     var cab = document.getElementById("sel_propiedad").value;
-    console.log(cab);
-    alert(cab.id);
+    try {
+      cab = JSON.parse(cab);
+
+      
+    } catch (e) {
+      alert("Selecciones la propiedad");
+      return;
+    }
+    
+    document.getElementById("propiedadId").value = cab.id;    
+    
+    // no puede salir antes de llegar
+    let ingreso = new Date(document.getElementById("fechaIngreso").value);
+    let egreso = new Date(document.getElementById("fechaEgreso").value);
+    if (ingreso>egreso){
+      alert("El egreso no puede ser anterior que el ingreso");
+      return;
+    }
+
+    // no puede tener mas personas que la capacidad de la propiedad
+    let cantPersonas = document.getElementById("cantPersonas").value;
+    var detalles= JSON.parse(cab.detalles);
+    if (cantPersonas>detalles.plazas){
+        alert("La cantidad de personas excede la capacidad de la cabaña");
+        return
+    }
+
+
   }
 </script>

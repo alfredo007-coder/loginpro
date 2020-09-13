@@ -138,67 +138,8 @@
 </footer>
 <!-- Footer -->
 <script>
-function cargarEventos(){
-  @foreach  ($eventos as $evento)
-    //alert ({{$evento->id}});
-    var ing =  "{{$evento->fechaIngreso}}"+":00:00:00";
-    ing = new Date(ing);
-    var year = ing.getFullYear();
-    var mes =  ing.getMonth()+1;
-     
-    var ultimoDiaSemana =ing.getDay()==0 ? 0 : 7-ing.getDay();
-    ing = ing.getDate();
-    
-    ultimoDiaSemana = ultimoDiaSemana + ing;
-    var ultimoDiaMes = new Date(year, mes, 0);;
-     
-    var egr =  "{{$evento->fechaEgreso}}"+":00:00:00";
-    egr = new Date(egr);
-    egr = egr.getDate();
-    var cont = 0;
-    var actual=ing;
-    //pintar los dias de reserva
-    for (actual=ing;actual<=egr;actual++){
 
-    }
-    while (actual<=egr && actual<=ultimoDiaSemana && actual<=ultimoDiaMes){
-      
-          cont ++;
-          actual++;
-          console.log("cont:" + cont + " act:" + actual + " ing:"+ ing + " egr:" + egr +" semana:" + ultimoDiaSemana+ " mes:" + ultimoDiaMes );
-        
-    }
-    
-    ancho = document.getElementById("01").clientWidth * cont + cont; 
-    document.getElementById({{$evento->id}}).style.width = ancho;
-    if (actual==ultimoDiaSemana){
-      ultimoDiaSemana = ultimoDiaSemana + 7;
-        
-    }
-    
-  @endforeach
-    var node = document.createElement("figcaption");                 
-    var textnode = document.createTextNode("Water");         
-    node.appendChild(textnode);                              
-    document.getElementById("25").appendChild(node);
-  }
-  function calculaAncho(e){
-    if(e<10){
-      a="0"+e;
-    }else{
-      a=e;
-    }
-    //alert(a);
-    //document.getElementById(a).style.backgroundColor = "lightblue";
-    
-    ancho = document.getElementById(a).clientWidth;
-    return ancho;
-    //alert(ancho);
-    //ancho = ancho * 1;
-    //document.getElementById("7").style.width = '800px';
-    
-  }
-function cargarEventos_1(){
+function cargarEventos(){
   var altura=-20;
   @foreach  ($eventos as $evento)
     altura = altura + 25;
