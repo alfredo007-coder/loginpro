@@ -59,7 +59,7 @@
     </style>
 
   </head>
-  <body >
+  <body onload="cargarEventos();">
 
     <div class="container">
       <div style="height:50px"></div>
@@ -103,7 +103,7 @@
           @foreach  ($weekdata['datos'] as $dayweek)
           
           @if  ($dayweek['mes']==$mes)
-            <div class="col box-day" onclick="cargarEventos_1()" id="{{ $dayweek['dia']  }}">
+            <div class="col box-day" id="{{ $dayweek['dia']  }}">
               <div>{{ $dayweek['dia']  }}</div>
               
               <!-- evento -->

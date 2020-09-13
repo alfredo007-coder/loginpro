@@ -121,6 +121,9 @@
           <div class="col text-right mt-2">
             <input type="submit" class="btn btn-info" onclick="guardar()" value="Guardar">
           </div>
+          <div class="col text-right mt-2">
+            <input type="button"  class="btn btn-warning" onclick="volver()" value="Volver">
+          </div>
         </form>
       </div> <!-- /container -->
     </div>
@@ -161,5 +164,10 @@
     }
 
 
+  }
+  function volver(){
+    
+    window.location.href = "{{ asset('/Evento/index') }}";
+    
   }
 </script>
