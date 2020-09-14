@@ -155,7 +155,6 @@ function cargarEventos(){
     var mes =  ing.getMonth()+1;
     
     var idEvento = {{$evento->id}};
-    
     var texto = "{{$evento->titulo}}" + "*{{$evento->fechaIngreso}}* " + " *{{$evento->fechaEgreso}}*"; 
     var ultimoDiaSemana = ing.getDay()==0 ? 0 : 7-ing.getDay();
     ingDia = ing.getDate();
