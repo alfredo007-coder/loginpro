@@ -21,34 +21,50 @@ class ControllerEvent extends Controller
     public function create(Request $request){
       
       $this->validate($request, [
-      'fechaIngreso' =>  'required',
-      'fechaEgreso' =>  'required',
-      'propiedadId' =>  'required', 
-      'nombre' =>  'required',
-      'email' =>  'required',
-      'wapp1' =>  'required',
-      'wapp2' =>  'required',
-      'cantPersonas' =>  'required',
+      'fechaIngreso'    =>  'required',
+      'fechaEgreso'     =>  'required',
+      'propiedadId'     =>  'required', 
+      'nombre'          =>  'required',
+      'email'           =>  'required',
+      'wapp1'           =>  'required',
+      'wapp2'           =>  'required',
+      'cantPersonas'    =>  'required',
       'lugarResidencia' =>  'required'
 
      ]);
+        // validar que no se superpongan
+        $idPropiedad = $request->input("propiedadId");
+        $eventos = DB::table('evento')
+        ->where('idPropiedad', $idPropiedad)
+          ->get();
+
+        foreach ($eventos as $evento)
+        {
+           $Ingreso = $request->input("fechaIngreso");
+           $Egreso = $request->input("fechaEgreso");
+           if (($evento->fechaIngreso <= $Ingreso && $Ingreso < $evento->fechaEgreso)||($evento->fechaIngreso < $Egreso && $Egreso < $evento->fechaEgreso)){
+            return back()->with('error', 'Reserva solapada verifique las fechas');
+           }
+           
+        }
+
 
       Event::insert([
         
-        'fechaIngreso'        => $request->input("fechaIngreso"),
-        'fechaEgreso'        => $request->input("fechaEgreso"),
-        'idPropiedad'        => $request->input("propiedadId"),
-        'nombre'        => $request->input("nombre"),
+        'fechaIngreso' => $request->input("fechaIngreso"),
+        'fechaEgreso'  => $request->input("fechaEgreso"),
+        'idPropiedad'  => $request->input("propiedadId"),
+        'nombre'       => $request->input("nombre"),
         'email'        => $request->input("email"),
         'wapp1'        => $request->input("wapp1"),
         'wapp2'        => $request->input("wapp2"),
-        'cantPersonas'        => $request->input("cantPersonas"),
-        'lugarResidencia'        => $request->input("lugarResidencia")
+        'cantPersonas' => $request->input("cantPersonas"),
+        'lugarResidencia'=> $request->input("lugarResidencia")
 
       ]);
 
-      return back()->with('success', 'Reserva generada exitosamente!');
-
+      //return back()->with('success', 'Reserva generada exitosamente!');
+      return redirect("Evento/index");  
     }
 
     public function details($id){
@@ -79,8 +95,9 @@ class ControllerEvent extends Controller
        $fechaDesde->modify('first day of this month');
        $fechaHasta = new DateTime();
        $fechaHasta->modify('last day of this month');
-       //dd($fechaHasta);
+       
        $eventos= DB::table('evento')
+              ->select('evento.*','propiedad.*','evento.nombre as nombreEvento')
               ->join('propiedad', 'propiedad.id', '=', 'evento.idPropiedad')
               ->where('evento.estado',1)
               ->where(function($query) use($mesActual,$fechaDesde,$fechaHasta){
@@ -92,7 +109,7 @@ class ControllerEvent extends Controller
                   });
               })
               ->get();
-      dd($eventos);
+      //dd($eventos);
        return view("evento/calendario",[
          'data' => $data,
          'mes' => $mes,

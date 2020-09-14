@@ -155,7 +155,7 @@ function cargarEventos(){
     var mes =  ing.getMonth()+1;
     
     var idEvento = {{$evento->id}};
-    var texto = "{{$evento->titulo}}" + "*{{$evento->fechaIngreso}}* " + " *{{$evento->fechaEgreso}}*"; 
+    var texto = "{{$evento->nombre}}" + "*{{$evento->fechaIngreso}}* " + " *{{$evento->fechaEgreso}}*"; 
     var ultimoDiaSemana = ing.getDay()==0 ? 0 : 7-ing.getDay();
     ingDia = ing.getDate();
     
@@ -179,7 +179,7 @@ function cargarEventos(){
     var color = "{{$evento->color}}";
     if(ing.getMonth()==egr.getMonth()){
       
-      if(egrDia<ultimoDiaSemana){ // el ingreso y el etreso estan en la misma semana
+      if(egrDia<ultimoDiaSemana){ // el ingreso y el egreso estan en la misma semana
         pintar = egrDia-ingDia+1;
         var dia = ingDia;
         agregarTarea(dia,pintar,idEvento,texto,altura,color);

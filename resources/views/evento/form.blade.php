@@ -13,7 +13,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
     body{
       font-family: 'Exo', sans-serif;
@@ -43,7 +43,13 @@
   <body>
     <div class="row mb-2 mt-5"> <!--Marco General-->
       <div class="container">
-        <form action="{{ asset('/Evento/create/') }}" method="post">
+      @if ($message = Session::get('error'))
+            <div class="alert alert-danger alert-block">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+            </div>
+      @endif
+        <form action="{{ asset('/Evento/create/') }}" id="fomularioAgregarEvento" method="post">
                   @csrf  
           <div class="card">
             <div class="card-header"> <!--header-->
@@ -118,7 +124,7 @@
               </div>
               <div class="text-right">
                 <div class="btn-group">
-                  <input type="submit" class="btn btn-info" onclick="guardar()" value="Guardar">
+                  <input type="button" class="btn btn-info" onclick="guardar()" value="Guardar">
                   <input type="button"  class="btn btn-warning" onclick="volver()" value="Volver">
                 </div>
               </div>
@@ -140,7 +146,13 @@
 
       
     } catch (e) {
-      alert("Selecciones la propiedad");
+      //alert("Selecciones la propiedad");
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Seleccione una propiedad!',
+        footer: 'Debe seleccionar una propiedad'
+      })
       return;
     }
     
@@ -150,19 +162,33 @@
     let ingreso = new Date(document.getElementById("fechaIngreso").value);
     let egreso = new Date(document.getElementById("fechaEgreso").value);
     if (ingreso>egreso){
-      alert("El egreso no puede ser anterior que el ingreso");
+      //alert("El egreso no puede ser anterior que el ingreso");
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'El egreso no puede ser anterior que el ingreso',
+        footer: 'Por favor seleccione nuevamente las fechas'
+      })
       return;
     }
 
     // no puede tener mas personas que la capacidad de la propiedad
     let cantPersonas = document.getElementById("cantPersonas").value;
     var detalles= JSON.parse(cab.detalles);
+    console.log(detalles.plazas);
     if (cantPersonas>detalles.plazas){
-        alert("La cantidad de personas excede la capacidad de la cabaña");
+        //alert("La cantidad de personas excede la capacidad de la cabaña");
+        Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'La cantidad de personas excede la capacidad de la cabaña',
+        footer: 'Por favor seleccione nuevamente Cant. Personas'
+      })
         return
     }
 
-
+    console.log('termino');
+    document.getElementById("fomularioAgregarEvento").submit();
   }
   function volver(){
     
