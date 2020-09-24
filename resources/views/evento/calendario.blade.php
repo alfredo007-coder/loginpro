@@ -163,6 +163,8 @@ function cargarEventos(){
     var ultimoDiaMes = new Date(year, mes, 0);;
      
     var egr =  "{{$evento->fechaEgreso}}"+":00:00:00";
+    var limites = 0;
+    var corrido = 0;
     egr = new Date(egr);
     
     var ultimoDiaMes =   new Date(yearCalendario  + "-" + mesCalendario + "-" + "1");
@@ -182,15 +184,16 @@ function cargarEventos(){
       if(egrDia<ultimoDiaSemana){ // el ingreso y el egreso estan en la misma semana
         pintar = egrDia-ingDia+1;
         var dia = ingDia;
-        agregarTarea(dia,pintar,idEvento,texto,altura,color);
+        agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
         
-      } else { // el ingreso y el etreso NO estan en la misma semana
+      } else { // el ingreso y el egreso NO estan en la misma semana
         //pinta primera semana
         pintar = ultimoDiaSemana-ingDia+1;
         dia = ingDia;
         semana = 1;
         idEvento = idEvento + "-" + semana;
-        agregarTarea(dia,pintar,idEvento,texto,altura,color);
+        limites = 1;
+        agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
         ultimoDiaSemana = ultimoDiaSemana + 7;
         primerDiaSemana = ultimoDiaSemana -6;
         while (egrDia>ultimoDiaSemana){
@@ -199,7 +202,7 @@ function cargarEventos(){
           dia = primerDiaSemana;
           semana ++;
           idEvento = idEvento + "-" + semana;
-          agregarTarea(dia,pintar,idEvento,texto,altura,color);
+          agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
           ultimoDiaSemana = ultimoDiaSemana + 7;
           primerDiaSemana = ultimoDiaSemana -6;
         }
@@ -208,7 +211,8 @@ function cargarEventos(){
         dia = primerDiaSemana;
         semana ++;
         idEvento = idEvento + "-" + semana;
-        agregarTarea(dia,pintar,idEvento,texto,altura,color);
+        limites =2;
+        agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
 
       }
     }
@@ -217,20 +221,41 @@ function cargarEventos(){
   @endforeach
 } 
 
-function  agregarTarea(dia,pintar,idEvento,texto,altura,color){
-    //console.log(color);
+function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites){
+    //console.log(egrAux);
     
     var node = document.createElement("figcaption");
     node.setAttribute("id", idEvento);                 
-    var textnode = document.createTextNode(texto);         
+    var textnode = document.createTextNode(texto);
+      
+    
+
+    switch(limites) {
+      case 1:
+        // //al comienzo del evento hay que quitarle la mitad
+        limites = (document.getElementById("01").clientWidth/2)* (-1)-2;
+        var corrido = document.getElementById("01").clientWidth/2;
+        break;
+      case 2:
+        //al fin del evento hay que quitarle la mitad
+        limites = (document.getElementById("01").clientWidth/2)* (-1)-2;
+      case 3:
+        //al fin del evento hay que quitarle la mitad
+        limites = (document.getElementById("01").clientWidth/2)* (-1)-2;  
+        break;
+      default:
+        // code block
+    }
+    var ancho = document.getElementById("01").clientWidth * pintar + pintar + limites;
+    limites = 0;
     node.appendChild(textnode);
     if(dia<10){dia="0" + dia};
     document.getElementById(dia).appendChild(node);
-    var ancho = document.getElementById("01").clientWidth * pintar + pintar; 
+    document.getElementById(idEvento).style.left = corrido;
+    corrido = 0;
     document.getElementById(idEvento).style.width = ancho;
     document.getElementById(idEvento).style.top = altura;
-    document.getElementById(idEvento).style.backgroundColor = color;
-
+    document.getElementById(idEvento).style.backgroundColor = color; 
 } 
 </script>
   </body>
