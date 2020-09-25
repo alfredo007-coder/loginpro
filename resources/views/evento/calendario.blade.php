@@ -141,16 +141,33 @@
 
 function cargarEventos(){
   var altura=-20;
+  var arrayPosicion=[];
+  var vieneDeAntes;
+  var vaParaDespues;
   @foreach  ($eventos as $evento)
-    altura = altura + 25;
+    var limites = 0;
+    var corrido = 0;
+    if (arrayPosicion.indexOf({{$evento->idPropiedad}})===-1){
+      arrayPosicion.push({{$evento->idPropiedad}});
+      altura = altura + 25;
+    }else{ 
+      altura = (arrayPosicion.indexOf({{$evento->idPropiedad}})+1)*25-20;
+    }
+    
+    
     var mesCalendario = "{{$data['month']}}";
     var yearCalendario = {{$data['year']}};
     var primerDiaMes = new Date(yearCalendario  + "-" + mesCalendario + "-" + "1" + ":00:00:00");
     var ing =  "{{$evento->fechaIngreso}}" + ":00:00:00";
     ing = new Date(ing);
     
-    
-    ing = (primerDiaMes>ing)?primerDiaMes:ing; 
+    if(primerDiaMes>ing){
+      ing = primerDiaMes;
+      vieneDeAntes = true;
+    }else{
+      vieneDeAntes = false;
+    }
+    //ing = (primerDiaMes>ing)?primerDiaMes:ing; 
     var year = ing.getFullYear();
     var mes =  ing.getMonth()+1;
     
@@ -163,15 +180,19 @@ function cargarEventos(){
     var ultimoDiaMes = new Date(year, mes, 0);;
      
     var egr =  "{{$evento->fechaEgreso}}"+":00:00:00";
-    var limites = 0;
-    var corrido = 0;
+    
     egr = new Date(egr);
     
     var ultimoDiaMes =   new Date(yearCalendario  + "-" + mesCalendario + "-" + "1");
     ultimoDiaMes = new Date(ultimoDiaMes.getFullYear() , ultimoDiaMes.getMonth() + 1, 0); 
     
-    egr=(ultimoDiaMes<egr)?ultimoDiaMes:egr;
-    
+    //egr=(ultimoDiaMes<egr)?ultimoDiaMes:egr;
+    if(ultimoDiaMes<egr){
+      egr = ultimoDiaMes;
+      vaParaDespues = true;
+    }else{
+      vaParaDespues = false;
+    }
 
     egrDia = egr.getDate();
     //console.log(ing.getMonth() +" " + egr.getMonth() );
@@ -184,6 +205,9 @@ function cargarEventos(){
       if(egrDia<ultimoDiaSemana){ // el ingreso y el egreso estan en la misma semana
         pintar = egrDia-ingDia+1;
         var dia = ingDia;
+        limites = (vaParaDespues)?1:((vieneDeAntes)?2:3);
+        // limites=3;((vieneDeAntes)?4:3)
+        //limites=3;
         agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
         
       } else { // el ingreso y el egreso NO estan en la misma semana
@@ -192,7 +216,7 @@ function cargarEventos(){
         dia = ingDia;
         semana = 1;
         idEvento = idEvento + "-" + semana;
-        limites = 1;
+        limites=(vieneDeAntes)?4:1;
         agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
         ultimoDiaSemana = ultimoDiaSemana + 7;
         primerDiaSemana = ultimoDiaSemana -6;
@@ -211,7 +235,8 @@ function cargarEventos(){
         dia = primerDiaSemana;
         semana ++;
         idEvento = idEvento + "-" + semana;
-        limites =2;
+        limites = (vaParaDespues)?4:2;
+        
         agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
 
       }
@@ -225,7 +250,7 @@ function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites){
     //console.log(egrAux);
     
     var node = document.createElement("figcaption");
-    node.setAttribute("id", idEvento);                 
+    node.setAttribute("id", "ev"+ idEvento);                 
     var textnode = document.createTextNode(texto);
       
     
@@ -239,10 +264,15 @@ function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites){
       case 2:
         //al fin del evento hay que quitarle la mitad
         limites = (document.getElementById("01").clientWidth/2)* (-1)-2;
+        break;
       case 3:
         //al fin del evento hay que quitarle la mitad
-        limites = (document.getElementById("01").clientWidth/2)* (-1)-2;  
+        limites = (document.getElementById("01").clientWidth)* (-1)-2; 
+        var corrido = document.getElementById("01").clientWidth/2; 
         break;
+      case 4:
+        //viende del final
+
       default:
         // code block
     }
@@ -251,12 +281,16 @@ function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites){
     node.appendChild(textnode);
     if(dia<10){dia="0" + dia};
     document.getElementById(dia).appendChild(node);
-    document.getElementById(idEvento).style.left = corrido;
+    document.getElementById("ev" + idEvento).style.left = corrido;
     corrido = 0;
-    document.getElementById(idEvento).style.width = ancho;
-    document.getElementById(idEvento).style.top = altura;
-    document.getElementById(idEvento).style.backgroundColor = color; 
+    document.getElementById("ev"+ idEvento).style.width = ancho;
+    document.getElementById("ev"+ idEvento).style.top = altura;
+    document.getElementById("ev"+ idEvento).style.backgroundColor = color;
+    document.getElementById("ev"+ idEvento).addEventListener("click", detalles); 
 } 
+function detalles(){
+  alert("hola");
+}
 </script>
   </body>
 </html>
