@@ -3,8 +3,10 @@
     <title></title>
     <meta content="">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Exo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
     body{
       font-family: 'Exo', sans-serif;
@@ -19,7 +21,7 @@
       width: 0px;
       left: 0px;
       padding: 0px;
-      text-align: center;
+      text-align: left;
       white-space: nowrap;
       text-overflow: ellipsis;
       display: block;
@@ -103,7 +105,7 @@
           @foreach  ($weekdata['datos'] as $dayweek)
           
           @if  ($dayweek['mes']==$mes)
-            <div class="col box-day" id="{{ $dayweek['dia']  }}">
+            <div class="col box-day"  id="{{ $dayweek['dia']  }}">
               <div>{{ $dayweek['dia']  }}</div>
               
               <!-- evento -->
@@ -142,67 +144,61 @@
 function cargarEventos(){
   var altura=-20;
   var arrayPosicion=[];
-  var vieneDeAntes;
-  var vaParaDespues;
+  
   @foreach  ($eventos as $evento)
     var limites = 0;
     var corrido = 0;
+    var vieneDeAntes;
+    var vaParaDespues;
     if (arrayPosicion.indexOf({{$evento->idPropiedad}})===-1){
       arrayPosicion.push({{$evento->idPropiedad}});
       altura = altura + 25;
     }else{ 
       altura = (arrayPosicion.indexOf({{$evento->idPropiedad}})+1)*25-20;
     }
-    
-    
+        
     var mesCalendario = "{{$data['month']}}";
     var yearCalendario = {{$data['year']}};
     var primerDiaMes = new Date(yearCalendario  + "-" + mesCalendario + "-" + "1" + ":00:00:00");
     var ing =  "{{$evento->fechaIngreso}}" + ":00:00:00";
     ing = new Date(ing);
-    
     if(primerDiaMes>ing){
       ing = primerDiaMes;
       vieneDeAntes = true;
     }else{
       vieneDeAntes = false;
     }
-    //ing = (primerDiaMes>ing)?primerDiaMes:ing; 
     var year = ing.getFullYear();
     var mes =  ing.getMonth()+1;
-    
     var idEvento = {{$evento->id}};
-    var texto = "{{$evento->nombre}}" + "*{{$evento->fechaIngreso}}* " + " *{{$evento->fechaEgreso}}*"; 
+
+    
+    var fechaIng = formateaFecha("{{$evento->fechaIngreso}}"+":00:00:00");
+    var fechaEg = formateaFecha("{{$evento->fechaEgreso}}"+":00:00:00");
+    //var texto = "{{$evento->nombre}}" + " " + fechaIng + "-" + fechaEg; 
+    var texto = "{{$evento->nombre}}" + " " + fechaIng + "-" + fechaEg; 
     var ultimoDiaSemana = ing.getDay()==0 ? 0 : 7-ing.getDay();
     ingDia = ing.getDate();
-    
     ultimoDiaSemana = ultimoDiaSemana + ingDia;
     var ultimoDiaMes = new Date(year, mes, 0);;
-     
     var egr =  "{{$evento->fechaEgreso}}"+":00:00:00";
-    
     egr = new Date(egr);
-    
     var ultimoDiaMes =   new Date(yearCalendario  + "-" + mesCalendario + "-" + "1");
     ultimoDiaMes = new Date(ultimoDiaMes.getFullYear() , ultimoDiaMes.getMonth() + 1, 0); 
-    
-    //egr=(ultimoDiaMes<egr)?ultimoDiaMes:egr;
     if(ultimoDiaMes<egr){
       egr = ultimoDiaMes;
       vaParaDespues = true;
     }else{
       vaParaDespues = false;
     }
-
     egrDia = egr.getDate();
-    //console.log(ing.getMonth() +" " + egr.getMonth() );
     var pintar;
     var dia;
     var semana;
     var color = "{{$evento->color}}";
     if(ing.getMonth()==egr.getMonth()){
       
-      if(egrDia<ultimoDiaSemana){ // el ingreso y el egreso estan en la misma semana
+      if(egrDia<=ultimoDiaSemana){ // el ingreso y el egreso estan en la misma semana
         pintar = egrDia-ingDia+1;
         var dia = ingDia;
         limites = (vaParaDespues)?1:((vieneDeAntes)?2:3);
@@ -247,14 +243,9 @@ function cargarEventos(){
 } 
 
 function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites){
-    //console.log(egrAux);
     
-    var node = document.createElement("figcaption");
-    node.setAttribute("id", "ev"+ idEvento);                 
-    var textnode = document.createTextNode(texto);
-      
     
-
+    
     switch(limites) {
       case 1:
         // //al comienzo del evento hay que quitarle la mitad
@@ -276,20 +267,44 @@ function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites){
       default:
         // code block
     }
+    var node = document.createElement("figcaption");
+    node.setAttribute("id", "ev"+ idEvento); 
+    var textnode = document.createTextNode(texto);
     var ancho = document.getElementById("01").clientWidth * pintar + pintar + limites;
     limites = 0;
     node.appendChild(textnode);
     if(dia<10){dia="0" + dia};
     document.getElementById(dia).appendChild(node);
-    document.getElementById("ev" + idEvento).style.left = corrido;
+       
+    var evento = document.getElementById("ev" + idEvento);
+    //document.getElementById("ev" + idEvento).style.left = corrido;
+    evento.style.left = corrido;
     corrido = 0;
-    document.getElementById("ev"+ idEvento).style.width = ancho;
-    document.getElementById("ev"+ idEvento).style.top = altura;
-    document.getElementById("ev"+ idEvento).style.backgroundColor = color;
-    document.getElementById("ev"+ idEvento).addEventListener("click", detalles); 
+    evento.style.width = ancho;
+    evento.style.top = altura;
+    evento.style.backgroundColor = color;
+    evento.innerHTML = `<button class="btn" onclick="detalles('${texto}')"><i class="fas fa-info-circle"></i></button> ${texto}`;
+    texto="";
+    
 } 
-function detalles(){
-  alert("hola");
+function detalles(texto){
+  //alert("hola");
+  Swal.fire({
+  icon: 'info',
+  title: 'reserva',
+  text: texto
+  //footer: '<a href>Why do I have this issue?</a>'
+})
+}
+
+function formateaFecha(fecha){
+    
+    var fechaFormateada = new Date(fecha);
+    var dd = String(fechaFormateada.getDate()).padStart(2, '0');
+    var mm = String(fechaFormateada.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = fechaFormateada.getFullYear();
+    fechaFormateada = dd + '/' + mm + '/' + yyyy;
+    return fechaFormateada;
 }
 </script>
   </body>
