@@ -295,7 +295,7 @@ function detalles(texto){
   //alert("hola");
   Swal.fire({
   icon: 'info',
-  title: 'reserva',
+  title: 'Reserva',
   text: texto
   //footer: '<a href>Why do I have this issue?</a>'
 })
