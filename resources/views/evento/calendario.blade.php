@@ -61,6 +61,9 @@
     </style>
 
   </head>
+  @extends('layouts.app')
+
+@section('content')
   <body onload="cargarEventos();">
 
     <div class="container">
@@ -139,6 +142,7 @@
 
 </footer>
 <!-- Footer -->
+@endsection
 <script>
 
 function cargarEventos(){

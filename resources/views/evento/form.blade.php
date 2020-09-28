@@ -40,6 +40,9 @@
     </style>
 
   </head>
+  @extends('layouts.app')
+
+@section('content')
   <body>
     <div class="row mb-2 mt-5"> <!--Marco General-->
       <div class="container">
@@ -136,7 +139,9 @@
     </footer>
     <!-- Footer -->
   </body>
+  @endsection
 </html>
+
 <script>
   function guardar(){
     

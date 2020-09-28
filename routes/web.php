@@ -42,7 +42,7 @@ Route::get('Evento/index','ControllerEvent@index');
 Route::get('Evento/index/{month}','ControllerEvent@index_month');
 Route::post('Evento/calendario','ControllerEvent@calendario');
 Route::get('/pruebas', function () {
-    return view('welcome');
+    return view('template');
     // if (!isset (Auth::user()->email)){
        
     //     return("no esta logueado");
