@@ -14,11 +14,10 @@ class ControllerPropiedad extends Controller
     public function index()
     {
         //
-        $propiedades = Propiedad::where('estado', 1)
-               ->get();
+        $propiedades = Propiedad::all();
       //dd($propiedades);
       
-      return view("propiedad/formPropiedad",compact("propiedades"));
+      return view("propiedad/index",compact("propiedades"));
     }
 
         
