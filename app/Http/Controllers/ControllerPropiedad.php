@@ -30,8 +30,10 @@ class ControllerPropiedad extends Controller
     public function create()
     {
         //
+        $propiedad = Propiedad::all();
+        return view("propiedad/create",compact("propiedad"));
     }
-
+ 
     /**
      * Store a newly created resource in storage.
      *
@@ -52,6 +54,8 @@ class ControllerPropiedad extends Controller
     public function show($id)
     {
         //
+        
+        
     }
 
     /**
