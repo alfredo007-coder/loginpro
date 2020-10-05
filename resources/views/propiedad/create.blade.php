@@ -46,18 +46,14 @@
                 </div>
 
                 <div class="card-body">
-                   <h2> Detalles <button class="btn btn"><i class="far fa-plus-circle fa-2x"></i></button></h2>
-                   <div class="row">
-                        <div class=
-                        <div class="col-md-6">
-                        
+                    <h2> Detalles <button class="btn btn" onclick="agregarDetalle()"><i class="far fa-plus-circle fa-2x"></i></button></h2>
+                    <div class="row">
+                        <div class="col-md-6 text-center" style="border:1px solid; border-radius:25px">
                             <H3> Plazas</H3>
-                           
                         </div> 
-                        <div class="col-md-6">
+                        <div class="col-md-6 text-center" style="border:1px solid; border-radius:25px">
                             <H3>3</H3>
                         </div>
-                    
                     </div> 
                 </div> <!-- fin body-->
             </div>
@@ -70,5 +66,7 @@ function objetoSeleccionado(){
     color.style.backgroundColor = color.value;
     document.getElementById("txtNombre").style.backgroundColor = color.value;
 }
+function agregarDetalle()
+    alert("hola");
 </script>
 @endsection
