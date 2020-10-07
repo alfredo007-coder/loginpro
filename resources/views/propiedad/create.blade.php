@@ -45,14 +45,26 @@
                     </div>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body" id="fila">
                     <h2> Detalles <button class="btn btn" onclick="agregarDetalle()"><i class="far fa-plus-circle fa-2x"></i></button></h2>
-                    <div class="row">
-                        <div class="col-md-6 text-center" style="border:1px solid; border-radius:25px">
-                            <H3> Plazas</H3>
+                    <div class="row mt-2">
+                        <div class="col-md-5 ml-2 text-center" style="border:1px solid; border-radius:25px">
+                            <h4>Nombre</h4>
                         </div> 
-                        <div class="col-md-6 text-center" style="border:1px solid; border-radius:25px">
-                            <H3>3</H3>
+                        <div class="col-md-5 ml-2 text-center" style="border:1px solid; border-radius:25px">
+                            <h4>Valor</h4>
+                        </div>
+                        
+                    </div> 
+                    <div class="row mt-2">
+                        <div class="col-md-5 ml-2 text-center" >
+                            <input type="text" class="form-control" name="nombreDetalle[]" value="Plazas" disabled></input>
+                        </div> 
+                        <div class="col-md-5 ml-2 text-center">
+                            <input type="number" class="form-control" name="detalle[]" value="2"></input>
+                        </div>
+                        <div class="col-md-1 text-center">
+                            <button class="btn btn" onclick="quitarDetalle()" disabled><i class="fas fa-trash-alt fa-2x"></i></button>
                         </div>
                     </div> 
                 </div> <!-- fin body-->
@@ -66,7 +78,32 @@ function objetoSeleccionado(){
     color.style.backgroundColor = color.value;
     document.getElementById("txtNombre").style.backgroundColor = color.value;
 }
-function agregarDetalle()
-    alert("hola");
+function agregarDetalle(){
+    //alert("hola");
+    var objeto = document.getElementById("fila");
+    objeto.innerHTML = objeto.innerHTML + `
+                    <div class="row mt-2">
+                        <div class="col-md-5 ml-2 text-center">
+                            <input type="text" class="form-control" name="nombreDetalle[]" value=""></input>
+                        </div> 
+                        <div class="col-md-5 ml-2 text-center">
+                            <input type="text" class="form-control" name="detalle[]"></input>
+                        </div>
+                        <div class="col-md-1 text-center">
+                            <button class="btn btn" onclick="quitarDetalle(this)"  name="filaDetalle[]"><i class="fas fa-trash-alt fa-2x"></i></button>
+                        </div>
+                    </div>`
+}
+
+function quitarDetalle(e){
+    
+    e.parentElement.parentElement.remove();
+    // var x = document.getElementsByName("detalle[]");
+    // var i;
+    // for (i = 0; i < x.length; i++) {
+    //     alert(x[i].value);
+    // }
+    
+}
 </script>
 @endsection
