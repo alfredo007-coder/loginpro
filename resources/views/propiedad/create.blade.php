@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="card-body" id="fila">
-                    <h2> Detalles <button class="btn btn" onclick="agregarDetalle()"><i class="far fa-plus-circle fa-2x"></i></button></h2>
+                    <h2> Detalles <button class="btn btn-success" onclick="agregarDetalle()"><i class="far fa-plus-circle "></i></button></h2>
                     <div class="row mt-2">
                         <div class="col-md-5 ml-2 text-center" style="border:1px solid; border-radius:25px">
                             <h4>Nombre</h4>
@@ -68,6 +68,9 @@
                         </div>
                     </div> 
                 </div> <!-- fin body-->
+            </div>
+            <div class="col-md-12 text-right mt-2">
+                <button type="button" class="btn btn-success">Guardar <i class="fas fa-share"></i></button>
             </div>
         </div>
     </div>
