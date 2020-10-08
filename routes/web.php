@@ -41,6 +41,7 @@ Route::get('Evento/details/{id}','ControllerEvent@details');
 Route::get('Evento/index','ControllerEvent@index');
 Route::get('Propiedad/index','ControllerPropiedad@index');
 Route::get('Propiedad/create','ControllerPropiedad@create');
+Route::post('Propiedad/store','ControllerPropiedad@store');
 Route::get('Evento/index/{month}','ControllerEvent@index_month');
 Route::post('Evento/calendario','ControllerEvent@calendario');
 Route::get('/pruebas', function () {
