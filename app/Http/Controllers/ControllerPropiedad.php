@@ -43,7 +43,28 @@ class ControllerPropiedad extends Controller
     public function store(Request $request)
     {
         //
-        dd($request);
+        $propiedad = new Propiedad;
+        $propiedad->nombre= $request->nombre;
+        $propiedad->estado = $request->activo;
+        $propiedad->color= $request->selColor;
+        $arrDetalles = $request->detalle;
+        $arrNombreDetalle = $request->nombreDetalle;
+        
+        //saco el numero de elementos
+        $longitud = count($arrDetalles);
+        $arrDetalles=[]; 
+        //Recorro todos los elementos
+        for($i=0; $i<$longitud; $i++){
+            //$cuerpoDetalles =  $cuerpoDetalles . '"' . $arrNombreDetalle[$i] . '":"' .  $arrDetalles[$i] . '",';
+            $arrDetalles["plazas"]="2";
+        }
+        //$int = strlen ( $cuerpoDetalles ) - 1;
+        // $cuerpoDetalles = substr($cuerpoDetalles,0,$int);
+        // $cuerpoDetalles =  $cuerpoDetalles . '}';
+        //$arrDetalles = utf8_encode ($arrDetalles);
+        $propiedad->detalles = json_encode($arrDetalles);
+        //dd($cuerpoDetalles);
+        $propiedad->save();
     }
 
     /**
@@ -55,7 +76,9 @@ class ControllerPropiedad extends Controller
     public function show($id)
     {
         //
-        
+        $propiedad = Propiedad::FindOrFail($id);
+        //dd($propiedad);
+        return view("propiedad.show", compact("propiedad"));
         
     }
 

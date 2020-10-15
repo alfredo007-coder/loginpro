@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 @section('content')
+
 <form method="post" action="store">
     <div class="container">
         <div class="row justify-content-center">
@@ -11,13 +12,14 @@
                     <div class="text-center">
                         <h1> Propiedad </h1>
                     </div>
+
                     <div class="row">
                             <div class="col-md-7">
                                 <div class="form-group">
                                 Nombre
                                 </div>
                                 <div>
-                                    <input type="text" class="form-control" name="nombre" id="txtNombre" required></input>
+                                    <input type="text" class="form-control" name="nombre" id="txtNombre" value="{{$propiedad->nombre}}" style="backgroundColor:{{$propiedad->color}};" ></input>
                                     {{csrf_field()}}
                                 </div>  
                             </div>
@@ -26,7 +28,7 @@
                                 Activo
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" id="defaultCheck2" name="activo" Checked>
+                                    <input class="form-check-input" type="checkbox" value={{$propiedad->estado}} id="defaultCheck2" name="activo" required @if($propiedad->estado==1) checked @endif>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -63,6 +65,12 @@
                                 <input type="text" class="form-control" name="nombreDetalle[]" value="Plazas" ></input>
                             </div> 
                             <div class="col-md-5 ml-2 text-center">
+                                <script>
+                                    var s = '{{$propiedad->detalles}}';
+                                    //s=JSON.parse(s);
+                                    console.log(s);
+                                    
+                                </script>
                                 <input type="number" class="form-control" name="detalle[]" value="2"></input>
                             </div>
                             <div class="col-md-1 text-center">

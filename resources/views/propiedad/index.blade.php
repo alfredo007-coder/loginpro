@@ -40,9 +40,11 @@
                         <div class="row mt-2" id={{$propiedad->id}}>
                             <div class="col-md-8">
                                 <div class="fomr-group text-center">
+                                    <a href="{{route('propiedad.show' , $propiedad->id)}}">
                                     <button class="btn btn" style="width:100%">
                                         <div style="border-radius: 15px; background:{{$propiedad->color}}">{{$propiedad->nombre}}</div>
                                     </button>
+                                    </a>
                                 </div>
                             </div>
                             <div class="col-md-2">
