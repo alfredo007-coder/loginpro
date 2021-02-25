@@ -67,9 +67,26 @@
                             <div class="col-md-5 ml-2 text-center">
                                 <script>
                                     var s = '{{$propiedad->detalles}}';
-                                    //s=JSON.parse(s);
-                                    console.log(s);
+                                    s = s.replace(/&quot;/gi,'"');
+                                    detalles = JSON.parse(s);
+                                    console.log(detalles);
+                                    for (var i in detalles) {
+                                        var objeto = document.getElementById("fila");
+                                        objeto.innerHTML = objeto.innerHTML + `
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-5 ml-2 text-center">
+                                                                <input type="text" class="form-control" name="nombreDetalle[]"  required></input>
+                                                            </div> 
+                                                            <div class="col-md-5 ml-2 text-center">
+                                                                <input type="text" class="form-control" name="detalle[]" value="detalles[i]" required></input>
+                                                            </div>
+                                                            <div class="col-md-1 text-center">
+                                                                <button class="btn btn" onclick="quitarDetalle(this)"  name="filaDetalle[]"><i class="fas fa-trash-alt fa-2x"></i></button>
+                                                            </div>
+                                                        </div>`
                                     
+                                        console.log(i + "  " + detalles[i]);
+                                    }
                                 </script>
                                 <input type="number" class="form-control" name="detalle[]" value="2"></input>
                             </div>

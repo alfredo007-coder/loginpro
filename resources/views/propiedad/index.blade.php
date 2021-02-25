@@ -10,25 +10,8 @@
                 <div class="text-center">
                     <h1> Listado de Propiedades <button class="btn btn"><i class="far fa-plus-circle fa-3x"></i></button> </h1>
                 </div>
-                <div class="row">
-                        <div class="col-md-8 text-center">
-                            <div class="fomr-group">
-                                <label>Nombre</label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="fomr-group">
-                                <label>Activo</label>
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="fomr-group">
-                                <label>Detalles</label>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
+                
+                </div> -->
 
                 <div class="card-body">
                     @if (session('status'))
@@ -38,7 +21,7 @@
                     @endif
                     @foreach  ($propiedades as $propiedad)
                         <div class="row mt-2" id={{$propiedad->id}}>
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="fomr-group text-center">
                                     <a href="{{route('propiedad.show' , $propiedad->id)}}">
                                     <button class="btn btn" style="width:100%">
@@ -47,19 +30,6 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="fomr-group">
-                                @if ($propiedad->estado == 1)
-                                    <button class="btn btn"><i class="far fa-check-square fa-lg"></i></button>
-                                @endif
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="fomr-group">
-                                <button class="btn btn"><i class="far fa-list-alt fa-lg"></i></button>
-                                </div>
-                            </div>
-                            
                         </div>
                     @endforeach
                 </div> <!-- fin body-->
