@@ -65,6 +65,7 @@ class ControllerPropiedad extends Controller
         $propiedad->detalles = json_encode($arrDetalles);
         //dd($cuerpoDetalles);
         $propiedad->save();
+        return redirect('Propiedad');
     }
 
     /**

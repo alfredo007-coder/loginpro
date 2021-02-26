@@ -8,10 +8,13 @@
             <div class="card">
                 <div class="card-header">
                 <div class="text-center">
-                    <h1> Listado de Propiedades <button class="btn btn"><i class="far fa-plus-circle fa-3x"></i></button> </h1>
+                    <h1> Listado de Propiedades 
+                    <a href="create">
+                        <button class="btn btn"><i class="far fa-plus-circle fa-3x"></i></button> </h1>
+                    </a>
                 </div>
                 
-                </div> -->
+                </div> 
 
                 <div class="card-body">
                     @if (session('status'))

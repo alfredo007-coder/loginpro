@@ -40,7 +40,7 @@ Route::post('Evento/create','ControllerEvent@create');
 Route::get('Evento/details/{id}','ControllerEvent@details');
 Route::get('Evento/index','ControllerEvent@index');
 Route::get('Propiedad/','ControllerPropiedad@index');
-Route::get('Propiedad/create','ControllerPropiedad@create');
+Route::get('Propiedad/create','ControllerPropiedad@create')->name('propiedad.create');
 Route::get('Propiedad/{id}','ControllerPropiedad@show')->name('propiedad.show');
 Route::post('Propiedad/store','ControllerPropiedad@store');
 Route::get('Evento/index/{month}','ControllerEvent@index_month');
