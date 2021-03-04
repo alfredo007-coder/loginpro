@@ -87,6 +87,49 @@ function objetoSeleccionado(){
 function agregarDetalle(){
     
     var objeto = document.getElementById("fila");
+    //console.log("hola" + objeto.innerHTML);
+    /*var node = document.createElement("div");
+    node.setAttribute("class", "row mt-2");
+    node.setAttribute("id", "uno");
+    document.getElementById("fila").appendChild(node);
+
+        node = document.createElement("div");
+        node.setAttribute("class", "col-md-5 ml-2 text-center");
+        node.setAttribute("id", "dos");
+        document.getElementById("uno").appendChild(node);
+
+            node = document.createElement("input");
+            node.setAttribute("type", "text");
+            node.setAttribute("class", "form-control");
+            node.setAttribute("name", "nombreDetalle[]");
+            document.getElementById("dos").appendChild(node);
+
+        node = document.createElement("div");
+        node.setAttribute("class", "col-md-5 ml-2 text-center");
+        node.setAttribute("id", "tres");
+        document.getElementById("uno").appendChild(node);
+
+            node = document.createElement("input");
+            node.setAttribute("type", "number");
+            node.setAttribute("class", "form-control");
+            node.setAttribute("name", "detalle[]");
+            document.getElementById("tres").appendChild(node);
+        
+        node = document.createElement("div");
+        node.setAttribute("class", "col-md-1 text-center");
+        node.setAttribute("id", "cuatro");
+        document.getElementById("uno").appendChild(node);
+
+            node = document.createElement("button");
+            node.setAttribute("type", "number");
+            node.setAttribute("class", "btn btn");
+            node.setAttribute("onclick", "quitarDetalle()");
+            node.setAttribute("id", "cinco");
+            document.getElementById("cuatro").appendChild(node);
+            
+            node = document.createElement("i");
+            node.setAttribute("class", "fas fa-trash-alt fa-2x");
+            document.getElementById("cinco").appendChild(node);*/
     objeto.innerHTML = objeto.innerHTML + `
                     <div class="row mt-2">
                         <div class="col-md-5 ml-2 text-center">
@@ -99,6 +142,7 @@ function agregarDetalle(){
                             <button class="btn btn" onclick="quitarDetalle(this)"  name="filaDetalle[]"><i class="fas fa-trash-alt fa-2x"></i></button>
                         </div>
                     </div>`
+
 }
 
 function quitarDetalle(e){

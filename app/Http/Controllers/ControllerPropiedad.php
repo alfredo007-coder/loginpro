@@ -52,18 +52,23 @@ class ControllerPropiedad extends Controller
         
         //saco el numero de elementos
         $longitud = count($arrDetalles);
-        $arrDetalles=[]; 
+        
         //Recorro todos los elementos
+        $cuerpoDetalles = '';
+       
+
         for($i=0; $i<$longitud; $i++){
-            //$cuerpoDetalles =  $cuerpoDetalles . '"' . $arrNombreDetalle[$i] . '":"' .  $arrDetalles[$i] . '",';
-            $arrDetalles["plazas"]="2";
+            $cuerpoDetalles =  $cuerpoDetalles . '"' . $arrNombreDetalle[$i] . '":"' .  $arrDetalles[$i] . '",';
+           
         }
-        //$int = strlen ( $cuerpoDetalles ) - 1;
-        // $cuerpoDetalles = substr($cuerpoDetalles,0,$int);
-        // $cuerpoDetalles =  $cuerpoDetalles . '}';
+        
+        $int = strlen ( $cuerpoDetalles ) - 1;
+        $cuerpoDetalles = substr($cuerpoDetalles,0,$int);
+        $cuerpoDetalles =  '{' . $cuerpoDetalles . '}';
+        dd(utf8_encode($cuerpoDetalles));
         //$arrDetalles = utf8_encode ($arrDetalles);
-        $propiedad->detalles = json_encode($arrDetalles);
-        //dd($cuerpoDetalles);
+        $propiedad->detalles = utf8_encode($cuerpoDetalles);
+        
         $propiedad->save();
         return redirect('Propiedad');
     }

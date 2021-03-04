@@ -67,7 +67,7 @@
                             <div class="col-md-5 ml-2 text-center">
                                 <script>
                                     var s = '{{$propiedad->detalles}}';
-                                    s = s.replace(/&quot;/gi,'"');
+                                    //s = s.replace(/&quot;/gi,'"');
                                     detalles = JSON.parse(s);
                                     console.log(detalles);
                                     for (var i in detalles) {
