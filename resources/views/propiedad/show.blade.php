@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 @section('content')
 
-<form method="post" action="store">
+<form method="post" action="update">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -61,24 +61,23 @@
                             
                         </div> 
                         <div class="row mt-2">
-                            <div class="col-md-5 ml-2 text-center" >
-                                <input type="text" class="form-control" name="nombreDetalle[]" value="Plazas" ></input>
-                            </div> 
-                            <div class="col-md-5 ml-2 text-center">
+                            
+                            
                                 <script>
-                                    var s = '{{$propiedad->detalles}}';
-                                    //s = s.replace(/&quot;/gi,'"');
+                                   
+                                    var s = '{{(utf8_decode($propiedad->detalles))}}';
+                                    s = s.replace(/&quot;/gi,'"');
                                     detalles = JSON.parse(s);
-                                    console.log(detalles);
+                                   
                                     for (var i in detalles) {
                                         var objeto = document.getElementById("fila");
                                         objeto.innerHTML = objeto.innerHTML + `
                                                         <div class="row mt-2">
                                                             <div class="col-md-5 ml-2 text-center">
-                                                                <input type="text" class="form-control" name="nombreDetalle[]"  required></input>
+                                                                <input type="text" class="form-control" name="nombreDetalle[]"  value="` + i + `"required></input>
                                                             </div> 
                                                             <div class="col-md-5 ml-2 text-center">
-                                                                <input type="text" class="form-control" name="detalle[]" value="detalles[i]" required></input>
+                                                                <input type="text" class="form-control" name="detalle[]" value="`+ detalles[i] +`" required></input>
                                                             </div>
                                                             <div class="col-md-1 text-center">
                                                                 <button class="btn btn" onclick="quitarDetalle(this)"  name="filaDetalle[]"><i class="fas fa-trash-alt fa-2x"></i></button>
@@ -88,11 +87,9 @@
                                         console.log(i + "  " + detalles[i]);
                                     }
                                 </script>
-                                <input type="number" class="form-control" name="detalle[]" value="2"></input>
-                            </div>
-                            <div class="col-md-1 text-center">
-                                <button class="btn btn" onclick="quitarDetalle()" disabled><i class="fas fa-trash-alt fa-2x"></i></button>
-                            </div>
+                                
+                            
+                            
                         </div> 
                     </div> <!-- fin body-->
                 </div>

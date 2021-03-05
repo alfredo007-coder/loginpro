@@ -65,9 +65,11 @@ class ControllerPropiedad extends Controller
         $int = strlen ( $cuerpoDetalles ) - 1;
         $cuerpoDetalles = substr($cuerpoDetalles,0,$int);
         $cuerpoDetalles =  '{' . $cuerpoDetalles . '}';
-        dd(utf8_encode($cuerpoDetalles));
-        //$arrDetalles = utf8_encode ($arrDetalles);
-        $propiedad->detalles = utf8_encode($cuerpoDetalles);
+        
+        //$cuerpoDetalles = json_encode($cuerpoDetalles, JSON_UNESCAPED_UNICODE);
+        $cuerpoDetalles= (utf8_encode($cuerpoDetalles));
+       
+        $propiedad->detalles = $cuerpoDetalles;
         
         $propiedad->save();
         return redirect('Propiedad');
