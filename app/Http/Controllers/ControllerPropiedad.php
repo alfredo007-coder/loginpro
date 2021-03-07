@@ -14,7 +14,7 @@ class ControllerPropiedad extends Controller
     public function index()
     {
         //
-        $propiedades = Propiedad::all();
+        $propiedades = Propiedad::where('estado', '=', 1)->get();
       //dd($propiedades);
       
       return view("propiedad/index",compact("propiedades"));
@@ -99,6 +99,7 @@ class ControllerPropiedad extends Controller
     public function edit($id)
     {
         //
+        dd("hola");
     }
 
     /**
@@ -111,6 +112,37 @@ class ControllerPropiedad extends Controller
     public function update(Request $request, $id)
     {
         //
+        //dd($id);
+        $propiedad = Propiedad::find($id);
+        $propiedad->nombre= $request->nombre;
+        $propiedad->estado = $request->activo;
+        $propiedad->color= $request->selColor;
+        $arrDetalles = $request->detalle;
+        $arrNombreDetalle = $request->nombreDetalle;
+        
+        //saco el numero de elementos
+        $longitud = count($arrDetalles);
+        
+        //Recorro todos los elementos
+        $cuerpoDetalles = '';
+       
+
+        for($i=0; $i<$longitud; $i++){
+            $cuerpoDetalles =  $cuerpoDetalles . '"' . $arrNombreDetalle[$i] . '":"' .  $arrDetalles[$i] . '",';
+           
+        }
+        
+        $int = strlen ( $cuerpoDetalles ) - 1;
+        $cuerpoDetalles = substr($cuerpoDetalles,0,$int);
+        $cuerpoDetalles =  '{' . $cuerpoDetalles . '}';
+        
+        //$cuerpoDetalles = json_encode($cuerpoDetalles, JSON_UNESCAPED_UNICODE);
+        $cuerpoDetalles= (utf8_encode($cuerpoDetalles));
+       
+        $propiedad->detalles = $cuerpoDetalles;
+        
+        $propiedad->save();
+        return redirect('Propiedad');
     }
 
     /**

@@ -3,7 +3,9 @@
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 @section('content')
 
-<form method="post" action="update">
+<form action="/Propiedad/update/{{($propiedad->id)}}" method="post" >
+    @method('PUT');
+    
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -28,7 +30,7 @@
                                 Activo
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value={{$propiedad->estado}} id="defaultCheck2" name="activo" required @if($propiedad->estado==1) checked @endif>
+                                    <input class="form-check-input" type="checkbox" value={{$propiedad->estado}} id="defaultCheck2" name="activo"  @if($propiedad->estado==1) checked @endif>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -36,8 +38,8 @@
                                 Color
                                 </div>
                                 <div class="form-group">
-                                    <select class="browser-default custom-select" type="select" name="selColor" onchange="objetoSeleccionado()" id="selColor" required> 
-                                        <option value="">elija un color</option>
+                                    <select class="browser-default custom-select" type="select" name="selColor" onchange="objetoSeleccionado()" id="selColor" style='background:{{$propiedad->color}}' required> 
+                                        <option value={{$propiedad->color}}>color</option>
                                         <option value="#F1948A" style="background:#F1948A">rojo</option>
                                         <option value="#D5F5E3" style="background:#D5F5E3">verde</option>
                                         <option value="#FCF3CF" style="background:#FCF3CF">amarillo</option>
@@ -47,9 +49,11 @@
                             </div>
                             
                         </div>
+                        
                     </div>
 
                     <div class="card-body" id="fila">
+                    
                         <h2> Detalles <button class="btn btn-success" onclick="agregarDetalle()"><i class="far fa-plus-circle "></i></button></h2>
                         <div class="row mt-2">
                             <div class="col-md-5 ml-2 text-center" style="border:1px solid; border-radius:25px">
