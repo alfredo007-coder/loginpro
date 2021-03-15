@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 class ControllerCalendar extends Controller
 {
     public function index(){
-
+     
         $month = date("Y-m");
         $data = $this->calendar_month($month);
         $mes = $data['month'];
         // obtener mes en espanol
         $mespanish = $this->spanish_month($mes);
         $mes = $data['month'];
-        
+        dd($data);
         return view("index",[
           'data' => $data,
           'mes' => $mes,

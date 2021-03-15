@@ -84,6 +84,7 @@ class ControllerEvent extends Controller
       
        $month = date("Y-m");
        $mesActual = date("n");
+       //dd($mesActual);
        //
        $data = $this->calendar_month($month);
        $mes = $data['month'];
@@ -109,7 +110,7 @@ class ControllerEvent extends Controller
                   });
               })
               ->get();
-      //dd($eventos);
+              dd($data);
        return view("evento/calendario",[
          'data' => $data,
          'mes' => $mes,
@@ -120,17 +121,42 @@ class ControllerEvent extends Controller
    }
 
    public function index_month($month){
-
+     
+      
+      $mesActual = new DateTime($month);
+      
+      $mesActual = $mesActual->format('n');
       $data = $this->calendar_month($month);
+      
       $mes = $data['month'];
+      //dd($mesActual);
       // obtener mes en espanol
       $mespanish = $this->spanish_month($mes);
       $mes = $data['month'];
+      $fechaDesde = new DateTime();
+       $fechaDesde->modify('first day of this month');
+       $fechaHasta = new DateTime();
+       $fechaHasta->modify('last day of this month');
+       
+       $eventos= DB::table('evento')
+              ->select('evento.*','propiedad.*','evento.nombre as nombreEvento', 'evento.id as id')
+              ->join('propiedad', 'propiedad.id', '=', 'evento.idPropiedad')
+              ->where('evento.estado',1)
+              ->where(function($query) use($mesActual,$fechaDesde,$fechaHasta){
+                $query->whereMonth('FechaIngreso',$mesActual)
+                ->orwhereMonth('FechaEgreso',$mesActual)
+                ->orwhere(function($query) use($fechaDesde,$fechaHasta){
+                  $query->whereDate('FechaIngreso', '<', $fechaDesde)
+                        ->whereDate('FechaEgreso', '>', $fechaHasta);
+                  });
+              })
+              ->get();
       
       return view("evento/calendario",[
         'data' => $data,
         'mes' => $mes,
-        'mespanish' => $mespanish
+        'mespanish' => $mespanish,
+        'eventos' => $eventos
       ]);
 
     }
@@ -138,24 +164,44 @@ class ControllerEvent extends Controller
     public static function calendar_month($month){
       //$mes = date("Y-m");
       $mes = $month;
+      
       //sacar el ultimo de dia del mes
       $daylast =  date("Y-m-d", strtotime("last day of ".$mes));
+      
       //sacar el dia de dia del mes
       $fecha      =  date("Y-m-d", strtotime("first day of ".$mes));
-      $daysmonth  =  date("d", strtotime($fecha));
-      $montmonth  =  date("m", strtotime($fecha));
-      $yearmonth  =  date("Y", strtotime($fecha));
+      $daysmonth  =  date("d", strtotime($fecha))+ 0;
+      $montmonth  =  date("m", strtotime($fecha))+ 0;
+      $yearmonth  =  date("Y", strtotime($fecha))+ 0;
       
       // sacar el lunes de la primera semana
+     
       $nuevaFecha = mktime(0,0,0,$montmonth,$daysmonth,$yearmonth);
+      
       $diaDeLaSemana = date("w", $nuevaFecha);
+      if ($diaDeLaSemana==0){
+        $diaDeLaSemana=7;
+      }
+      //dd($montmonth." ".$daysmonth." ".$yearmonth."-DS-".$diaDeLaSemana);
       $nuevaFecha = $nuevaFecha - ($diaDeLaSemana*24*3600); //Restar los segundos totales de los dias transcurridos de la semana
+      
+      
       $dateini = date ("Y-m-d",$nuevaFecha);
+  
+      //dd($dateini);
       //$dateini = date("Y-m-d",strtotime($dateini."+ 1 day"));
       // numero de primer semana del mes
+      
       $semana1 = date("W",strtotime($fecha));
+  
       // numero de ultima semana del mes
       $semana2 = date("W",strtotime($daylast));
+      //dd($daylast);
+      if ($semana1>$semana2){
+        $semana2++;
+        $semana1=1; // esto es porque puede caer en enero 
+
+      } 
       // semana todal del mes
       // en caso si es diciembre
       if (date("m", strtotime($mes))==12) {
@@ -163,6 +209,7 @@ class ControllerEvent extends Controller
       }
       else {
         $semana = ($semana2-$semana1)+1;
+        
       }
       // semana todal del mes
       $datafecha = $dateini;
@@ -175,7 +222,10 @@ class ControllerEvent extends Controller
           $weekdata = [];
           for ($iday=0; $iday < 7 ; $iday++){
             // code...
+            //dd($datafecha);
+            
             $datafecha = date("Y-m-d",strtotime($datafecha."+ 1 day"));
+            //$datafecha = date("Y-m-d",strtotime($datafecha));
             $datanew['mes'] = date("M", strtotime($datafecha));
             $datanew['dia'] = date("d", strtotime($datafecha));
             $datanew['fecha'] = $datafecha;
@@ -186,14 +236,16 @@ class ControllerEvent extends Controller
           }
           $dataweek['semana'] = $iweek;
           $dataweek['datos'] = $weekdata;
+          
           //$datafecha['horario'] = $datahorario;
           array_push($calendario,$dataweek);
+          
       endwhile;
       $nextmonth = date("Y-M",strtotime($mes."+ 1 month"));
       $lastmonth = date("Y-M",strtotime($mes."- 1 month"));
       $month = date("M",strtotime($mes));
       $yearmonth = date("Y",strtotime($mes));
-      //$month = date("M",strtotime("2019-03"));
+      
       
       $data = array(
         'next'      => $nextmonth,

@@ -79,11 +79,11 @@
           <div class="row header-calendar"  >
 
             <div class="col" style="display: flex; justify-content: space-between; padding: 10px;">
-              <a  href="{{ asset('/Calendar/event/') }}/<?= $data['last']; ?>" style="margin:10px;">
+              <a  href="{{ asset('/Evento/calendario/') }}/<?= $data['last']; ?>" style="margin:10px;">
                 <i class="fas fa-chevron-circle-left" style="font-size:30px;color:white;"></i>
               </a>
               <h2 style="font-weight:bold;margin:10px;"><?= $mespanish; ?> <small><?= $data['year']; ?></small></h2>
-              <a  href="{{ asset('/Calendar/event/') }}/<?= $data['next']; ?>" style="margin:10px;">
+              <a  href="{{ asset('/Evento/calendario/') }}/<?= $data['next']; ?>" style="margin:10px;">
                 <i class="fas fa-chevron-circle-right" style="font-size:30px;color:white;"></i>
               </a>
             </div>
