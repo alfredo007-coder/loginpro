@@ -110,7 +110,7 @@ class ControllerEvent extends Controller
                   });
               })
               ->get();
-              dd($data);
+              
        return view("evento/calendario",[
          'data' => $data,
          'mes' => $mes,

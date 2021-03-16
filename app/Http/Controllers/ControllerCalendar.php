@@ -14,7 +14,6 @@ class ControllerCalendar extends Controller
         // obtener mes en espanol
         $mespanish = $this->spanish_month($mes);
         $mes = $data['month'];
-        dd($data);
         return view("index",[
           'data' => $data,
           'mes' => $mes,

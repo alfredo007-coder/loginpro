@@ -70,8 +70,8 @@
       <div style="height:50px"></div>
       <h1>Reserva</h1>
       <p class="lead">
-      <h3>Calendario - evento</h3>
-      <a class="btn btn-default"  href="{{ asset('/Evento/form') }}">Crear un evento</a>
+      <h3>Calendario de Reservas</h3>
+      <a class="btn btn-default"  href="{{ asset('/Evento/form') }}">Crear una reserva</a>
 
 
       <hr>
