@@ -66,7 +66,33 @@ class ControllerEvent extends Controller
       //return back()->with('success', 'Reserva generada exitosamente!');
       return redirect("Evento/index");  
     }
+    public function confirmar($id){
+      //$event = Event::find($id);
+      $event= DB::table('evento')
+      ->select('evento.*','propiedad.nombre as propiedad', 'evento.id as id')
+      ->join('propiedad', 'propiedad.id', '=', 'evento.idPropiedad')
+      ->where('evento.estado',1)
+      ->where('evento.id',$id)
+      ->get();
 
+      //dd($event[0]);
+      return view("evento/confirmar",[
+        "event" => $event[0]
+      ]);
+
+      
+        
+    }
+    public function actualizar(Request $request){
+      //dd($request->input("id"));
+      //dd($request->input("comentarios"));
+      
+      Event::findOrFail($request->input("id"))->update([
+        'estado'     => 2,
+        'comentarios'=> $request->input("comentarios"),
+        ]);
+        return redirect("Evento/index"); 
+    }
     public function details($id){
 
       $event = Event::find($id);
@@ -79,6 +105,7 @@ class ControllerEvent extends Controller
 
 
     // =================== CALENDARIO =====================
+
 
     public function index(){
       

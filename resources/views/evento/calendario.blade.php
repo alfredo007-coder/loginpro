@@ -175,6 +175,8 @@ function cargarEventos(){
     var year = ing.getFullYear();
     var mes =  ing.getMonth()+1;
     var idEvento = {{$evento->id}};
+    var ide = {{$evento->id}};
+
 
     
     var fechaIng = formateaFecha("{{$evento->fechaIngreso}}"+":00:00:00");
@@ -208,7 +210,7 @@ function cargarEventos(){
         limites = (vaParaDespues)?1:((vieneDeAntes)?2:3);
         // limites=3;((vieneDeAntes)?4:3)
         //limites=3;
-        agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
+        agregarTarea(dia,pintar,idEvento,texto,altura,color, limites,ide);
         
       } else { // el ingreso y el egreso NO estan en la misma semana
         //pinta primera semana
@@ -217,7 +219,7 @@ function cargarEventos(){
         semana = 1;
         idEvento = idEvento + "-" + semana;
         limites=(vieneDeAntes)?4:1;
-        agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
+        agregarTarea(dia,pintar,idEvento,texto,altura,color, limites,ide);
         ultimoDiaSemana = ultimoDiaSemana + 7;
         primerDiaSemana = ultimoDiaSemana -6;
         while (egrDia>ultimoDiaSemana){
@@ -226,7 +228,7 @@ function cargarEventos(){
           dia = primerDiaSemana;
           semana ++;
           idEvento = idEvento + "-" + semana;
-          agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
+          agregarTarea(dia,pintar,idEvento,texto,altura,color, limites,ide);
           ultimoDiaSemana = ultimoDiaSemana + 7;
           primerDiaSemana = ultimoDiaSemana -6;
         }
@@ -237,7 +239,7 @@ function cargarEventos(){
         idEvento = idEvento + "-" + semana;
         limites = (vaParaDespues)?4:2;
         
-        agregarTarea(dia,pintar,idEvento,texto,altura,color, limites);
+        agregarTarea(dia,pintar,idEvento,texto,altura,color, limites,ide);
 
       }
     }
@@ -246,7 +248,7 @@ function cargarEventos(){
   @endforeach
 } 
 
-function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites){
+function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites,ide){
     
     
     
@@ -287,17 +289,18 @@ function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites){
     evento.style.width = ancho;
     evento.style.top = altura;
     evento.style.backgroundColor = color;
-    evento.innerHTML = `<button class="btn" onclick="detalles('${texto}')"><i class="fas fa-info-circle"></i></button> ${texto}`;
+    evento.innerHTML = `<button class="btn" onclick="detalles('${texto}','${ide}')"><i class="fas fa-info-circle"></i></button> ${texto}`;
     texto="";
     
 } 
-function detalles(texto){
-  //alert("hola");
+function detalles(texto,ide){
+  
   Swal.fire({
   icon: 'info',
   title: 'Reserva',
-  text: texto
-  //footer: '<a href>Why do I have this issue?</a>'
+  text: texto,
+  footer: '<a href="{{asset('/Evento/confirmar/')}}/'+ ide +'">Quiere confirmar la reserva?</a>'
+              
 })
 }
 

@@ -1,4 +1,6 @@
-<html>
+
+
+ <html>
   <head>
     <title></title>
     <meta content="">
@@ -52,31 +54,30 @@
                 <strong>{{ $message }}</strong>
             </div>
       @endif
-        <form action="{{ asset('/Evento/create/') }}" id="fomularioAgregarEvento" method="post">
+        <form action="{{ asset('/Evento/actualizar/') }}" id="fomularioActualizarEvento" method="post">
                   @csrf  
+                 
           <div class="card">
             <div class="card-header"> <!--header-->
               <div class="row">
                 <div class="col-md-3">
                     <div class="fomr-group">
                       <label>Fecha de Ingreso</label>
-                      <input type="date" class="form-control" name="fechaIngreso"  id="fechaIngreso" required>
+                      <input type="date" class="form-control" name="fechaIngreso"  id="fechaIngreso" value="{{$event->fechaIngreso}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="fomr-group">
                       <label>Fecha de Egreso</label>
-                      <input type="date" class="form-control" name="fechaEgreso" id="fechaEgreso" required>
+                      <input type="date" class="form-control" name="fechaEgreso" id="fechaEgreso" value="{{$event->fechaEgreso}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="fomr-group">
-                      <label for="sel1">Seleccione la propiedad:</label>
-                      <select class="form-control" name="propiedad" id="sel_propiedad" required="required">
-                        <option selected disabled>Seleccione aqui</option>
-                        @foreach ($propiedades as $propiedad)
-                          <option value="{{$propiedad}}">{{$propiedad->nombre}}</option>
-                        @endforeach
+                      <label for="sel1">Propiedad:</label>
+                      <select class="form-control" name="propiedad" id="sel_propiedad" required="required" disabled>
+                        <option selected disabled>{{$event->propiedad}}</option>
+                        
                       </select>
                       <input type="text" class="form-control" name="propiedadId" id="propiedadId" style="display:none">  
                     </div>
@@ -88,13 +89,13 @@
                 <div class="col-md-4" >
                     <div class="fomr-group">
                       <label>Nombre</label>
-                      <input type="text" class="form-control" name="nombre"required>
+                      <input type="text" class="form-control" name="nombre" value="{{$event->nombre}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-8" >
                     <div class="fomr-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" name="email" placeholder="Ingrese su email" id="email" required>
+                      <input type="email" class="form-control" name="email" placeholder="Ingrese su email" id="email" value="{{$event->email}}" disabled required>
                     </div>
                   </div>
                 </div>
@@ -102,35 +103,44 @@
                   <div class="col-md-2" >
                     <div class="fomr-group">
                       <label>Cel/Wapp</label>
-                      <input type="tel" pattern="[0-9]{10}" class="form-control" name="wapp1" required>
-                      <small>Formato: 3511234567</small>
+                      <input type="tel" pattern="[0-9]{10}" class="form-control" name="wapp1" value="{{$event->wapp1}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-2" >
                     <div class="fomr-group">
                       <label>Cel Alternativo</label>
-                      <input type="text" pattern="[0-9]{10}" class="form-control" name="wapp2" required>
+                      <input type="text" pattern="[0-9]{10}" class="form-control" name="wapp2" value="{{$event->wapp2}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-2" >
                     <div class="fomr-group">
                       <label>Cant. Personas</label>
-                      <input type="number" min="1" class="form-control" name="cantPersonas" id="cantPersonas"  required>
+                      <input type="number" min="1" class="form-control" name="cantPersonas" id="cantPersonas" value="{{$event->cantPersonas}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-6" >
                     <div class="fomr-group">
                       <label>Lugar de Residencia</label>
-                      <input type="text" class="form-control" name="lugarResidencia" required>
+                      <input type="text" class="form-control" name="lugarResidencia" value="{{$event->lugarResidencia}}" disabled required>
                     </div>
                   </div>                
               </div>
+              <div class="row">
+                <div class="col-md-12 mt-3" >
+                    <div class="fomr-group">
+                      <label>Cometarios</label>
+                      <input type="text" class="form-control" name="comentarios"  required>
+                      <input type="hidden" class="form-control" name="id"  value="{{$event->id}}" required>
+                    </div>
+                </div>
+            </div>
               <div class="text-right">
-                <div class="btn-group">
-                  <input type="button" class="btn btn-info" onclick="guardar()" value="Guardar">
+                <div class="btn-group mt-2" >
+                  <input type="submit" class="btn btn-info"  value="Guardar">
                   <input type="button"  class="btn btn-warning" onclick="volver()" value="Volver">
                 </div>
               </div>
+              
             </div> <!-- card -->
         </form>
       </div> <!-- /container -->
@@ -142,62 +152,3 @@
   @endsection
 </html>
 
-<script>
-  function guardar(){
-    
-    var cab = document.getElementById("sel_propiedad").value;
-    try {
-      cab = JSON.parse(cab);
-
-      
-    } catch (e) {
-      //alert("Selecciones la propiedad");
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Seleccione una propiedad!',
-        footer: 'Debe seleccionar una propiedad'
-      })
-      return;
-    }
-    
-    document.getElementById("propiedadId").value = cab.id;    
-    
-    // no puede salir antes de llegar
-    let ingreso = new Date(document.getElementById("fechaIngreso").value);
-    let egreso = new Date(document.getElementById("fechaEgreso").value);
-    if (ingreso>egreso){
-      //alert("El egreso no puede ser anterior que el ingreso");
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'El egreso no puede ser anterior que el ingreso',
-        footer: 'Por favor seleccione nuevamente las fechas'
-      })
-      return;
-    }
-
-    // no puede tener mas personas que la capacidad de la propiedad
-    let cantPersonas = document.getElementById("cantPersonas").value;
-    var detalles= JSON.parse(cab.detalles);
-    
-    if (cantPersonas>detalles.Plazas){
-        //alert("La cantidad de personas excede la capacidad de la cabaña");
-        Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'La cantidad de personas excede la capacidad de la cabaña',
-        footer: 'Por favor seleccione nuevamente Cant. Personas'
-      })
-        return;
-    }
-
-    console.log('termino');
-    document.getElementById("fomularioAgregarEvento").submit();
-  }
-  function volver(){
-    
-    window.location.href = "{{ asset('/Evento/index') }}";
-    
-  }
-</script>
