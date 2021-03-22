@@ -71,7 +71,6 @@ class ControllerEvent extends Controller
       $event= DB::table('evento')
       ->select('evento.*','propiedad.nombre as propiedad', 'evento.id as id')
       ->join('propiedad', 'propiedad.id', '=', 'evento.idPropiedad')
-      ->where('evento.estado',1)
       ->where('evento.id',$id)
       ->get();
 
@@ -85,13 +84,19 @@ class ControllerEvent extends Controller
     }
     public function actualizar(Request $request){
       //dd($request->input("id"));
-      //dd($request->input("comentarios"));
+      //dd($request);
+      $nuevoEstado = 1;
+      if($request->input("btn_estado")=="on"){
+          $nuevoEstado = 2;
+      }
       
       Event::findOrFail($request->input("id"))->update([
-        'estado'     => 2,
+        
+        'estado'     => $nuevoEstado,
         'comentarios'=> $request->input("comentarios"),
+        
         ]);
-        return redirect("Evento/index"); 
+      return redirect("Evento/index"); 
     }
     public function details($id){
 
@@ -125,9 +130,10 @@ class ControllerEvent extends Controller
        $fechaHasta->modify('last day of this month');
        
        $eventos= DB::table('evento')
-              ->select('evento.*','propiedad.*','evento.nombre as nombreEvento', 'evento.id as id')
+              ->select('evento.*','propiedad.*','evento.nombre as nombreEvento', 'evento.id as id', 'evento.estado as estado')
               ->join('propiedad', 'propiedad.id', '=', 'evento.idPropiedad')
-              ->where('evento.estado',1)
+              ->where('evento.estado',2)
+              ->orwhere('evento.estado','=',1)
               ->where(function($query) use($mesActual,$fechaDesde,$fechaHasta){
                 $query->whereMonth('FechaIngreso',$mesActual)
                 ->orwhereMonth('FechaEgreso',$mesActual)
@@ -137,7 +143,7 @@ class ControllerEvent extends Controller
                   });
               })
               ->get();
-              
+        
        return view("evento/calendario",[
          'data' => $data,
          'mes' => $mes,

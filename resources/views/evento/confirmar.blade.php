@@ -45,7 +45,7 @@
   @extends('layouts.app')
 
 @section('content')
-  <body>
+  <body onload="funcion_inicial()">
     <div class="row mb-2 mt-5"> <!--Marco General-->
       <div class="container">
       @if ($message = Session::get('error'))
@@ -72,7 +72,7 @@
                       <input type="date" class="form-control" name="fechaEgreso" id="fechaEgreso" value="{{$event->fechaEgreso}}" disabled required>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                     <div class="fomr-group">
                       <label for="sel1">Propiedad:</label>
                       <select class="form-control" name="propiedad" id="sel_propiedad" required="required" disabled>
@@ -81,20 +81,31 @@
                       </select>
                       <input type="text" class="form-control" name="propiedadId" id="propiedadId" style="display:none">  
                     </div>
-                  </div>    
+                  </div>
+                  <div class="col-md-2">
+                    <div class="fomr-group">
+                        <div class="form-check form-switch">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Confirmado</label>
+                            <input class="form-control" name="btn_estado" type="checkbox" id="flexSwitchCheckDefault" />
+                           
+                        </div>    
+                    </div>
+                  </div>      
               </div>     
             </div> <!--Header-->
-            <div class="card-body">
+            
+            <div class="card-body" id="conf"> 
+            
               <div class="row">
-                <div class="col-md-4" >
+                  <div class="col-md-4" >
                     <div class="fomr-group">
-                      <label>Nombre</label>
+                      <p class="font-weight-bold">Nombre</p>
                       <input type="text" class="form-control" name="nombre" value="{{$event->nombre}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-8" >
                     <div class="fomr-group">
-                      <label for="email">Email</label>
+                      <label for="email"><p class="font-weight-bold">Email</p></label>
                       <input type="email" class="form-control" name="email" placeholder="Ingrese su email" id="email" value="{{$event->email}}" disabled required>
                     </div>
                   </div>
@@ -102,25 +113,25 @@
                 <div class="row mt-2">
                   <div class="col-md-2" >
                     <div class="fomr-group">
-                      <label>Cel/Wapp</label>
+                      <p class="font-weight-bold">Cel/Wapp</p>
                       <input type="tel" pattern="[0-9]{10}" class="form-control" name="wapp1" value="{{$event->wapp1}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-2" >
                     <div class="fomr-group">
-                      <label>Cel Alternativo</label>
-                      <input type="text" pattern="[0-9]{10}" class="form-control" name="wapp2" value="{{$event->wapp2}}" disabled required>
+                        <p class="font-weight-bold">Cel Alternativo</p>  
+                        <input type="text" pattern="[0-9]{10}" class="form-control" name="wapp2" value="{{$event->wapp2}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-2" >
                     <div class="fomr-group">
-                      <label>Cant. Personas</label>
+                      <p class="font-weight-bold">Cant. Personas <p>
                       <input type="number" min="1" class="form-control" name="cantPersonas" id="cantPersonas" value="{{$event->cantPersonas}}" disabled required>
                     </div>
                   </div>
                   <div class="col-md-6" >
                     <div class="fomr-group">
-                      <label>Lugar de Residencia</label>
+                      <p class="font-weight-bold">Lugar de Residencia</p>
                       <input type="text" class="form-control" name="lugarResidencia" value="{{$event->lugarResidencia}}" disabled required>
                     </div>
                   </div>                
@@ -128,15 +139,16 @@
               <div class="row">
                 <div class="col-md-12 mt-3" >
                     <div class="fomr-group">
-                      <label>Cometarios</label>
-                      <input type="text" class="form-control" name="comentarios"  required>
+                      <p class="font-weight-bold" style="text-shadow: 3px 3px 3px white;">Cometarios</p>
+                      <input type="text" class="form-control" name="comentarios" value="{{$event->comentarios}}"  required>
                       <input type="hidden" class="form-control" name="id"  value="{{$event->id}}" required>
                     </div>
                 </div>
             </div>
+            
               <div class="text-right">
-                <div class="btn-group mt-2" >
-                  <input type="submit" class="btn btn-info"  value="Guardar">
+                <div class="btn-group mt-3" >
+                  <input type="submit" id="btn_conf" class="btn btn-info"  value="Guardar">
                   <input type="button"  class="btn btn-warning" onclick="volver()" value="Volver">
                 </div>
               </div>
@@ -151,4 +163,18 @@
   </body>
   @endsection
 </html>
+<script>
+function funcion_inicial(){
+    
+                if ({{$event->estado}}==2) {
+                    document.getElementById("conf").style ="background-image: url('{{ asset('img/confirmado.jpg') }}'); background-size: cover;";
+                    document.getElementById("flexSwitchCheckDefault").checked = true;
+                }
+            
 
+}
+
+function volver(){
+       window.location.href = "{{ asset('/Evento/index') }}";
+}
+</script>
