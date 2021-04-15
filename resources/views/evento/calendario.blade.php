@@ -48,7 +48,7 @@
     }
     .box-dayoff{
       border:1px solid #E3E9E5;
-      height:150px;
+      height:150px !important;
       background-color: #ccd1ce;
     }
 
@@ -251,7 +251,18 @@ function cargarEventos(){
 
 function  agregarTarea(dia,pintar,idEvento,texto,altura,color,limites,ide,estado){
     
-    
+    if(altura>120){ 
+     
+      //document.getElementsByClassName("col box-day").style ="height:450px !important;";
+      // document.getElementById("conf").style ="background-image: url('{{ asset('img/confirmado.jpg') }}'); background-size: cover;";
+      // var goodBrowser = document.getElementsByClassName("box-day"); 
+      //   for(i = 0; i < goodBrowser.length; i++) {
+      //      badBrowser.style.height = "450px !important;";
+           
+      //      }
+      //document.getElementById("22").style="height:450px";
+    }
+  
     
     switch(limites) {
       case 1:
