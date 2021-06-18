@@ -64,6 +64,11 @@
   @extends('layouts.app')
 
 @section('content')
+@if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+@endif
   <body onload="cargarEventos();">
 
     <div class="container">
@@ -79,11 +84,11 @@
           <div class="row header-calendar"  >
 
             <div class="col" style="display: flex; justify-content: space-between; padding: 10px;">
-              <a  href="{{ asset('/Evento/calendario/') }}/<?= $data['last']; ?>" style="margin:10px;">
+              <a  href="{{ asset('/Evento/index/') }}/<?= $data['last']; ?>" style="margin:10px;">
                 <i class="fas fa-chevron-circle-left" style="font-size:30px;color:white;"></i>
               </a>
               <h2 style="font-weight:bold;margin:10px;"><?= $mespanish; ?> <small><?= $data['year']; ?></small></h2>
-              <a  href="{{ asset('/Evento/calendario/') }}/<?= $data['next']; ?>" style="margin:10px;">
+              <a  href="{{ asset('/Evento/index/') }}/<?= $data['next']; ?>" style="margin:10px;">
                 <i class="fas fa-chevron-circle-right" style="font-size:30px;color:white;"></i>
               </a>
             </div>

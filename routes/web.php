@@ -26,13 +26,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 Route::get('Calendar/event/{mes}','ControllerCalendar@index_month');
 Route::get('Calendar/event','ControllerCalendar@index');
 Route::get('Evento/form','ControllerEvent@form');
@@ -42,6 +36,7 @@ Route::get('Evento/index','ControllerEvent@index');
 Route::get('Evento/confirmar/{id}','ControllerEvent@confirmar');
 Route::post('Evento/actualizar','ControllerEvent@actualizar');
 Route::get('Evento/calendario/{mes}','ControllerEvent@index_month');
+// Route::get('Propiedad/','ControllerPropiedad@index')->middleware('auth');
 Route::get('Propiedad/','ControllerPropiedad@index');
 Route::get('Propiedad/create','ControllerPropiedad@create')->name('propiedad.create');
 Route::get('Propiedad/{id}','ControllerPropiedad@show')->name('propiedad.show');

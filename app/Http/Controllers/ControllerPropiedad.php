@@ -13,7 +13,7 @@ class ControllerPropiedad extends Controller
      */
     public function index()
     {
-        //
+        // 
         $propiedades = Propiedad::where('estado', '=', 1)->get();
       //dd($propiedades);
       
